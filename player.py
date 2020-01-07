@@ -32,9 +32,24 @@ class Player:
 
     def init(self):
         res=requests.get(
-            'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/', headers=headers
+            'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/', headers=headers 
         )
         nextRoom=json.loads(res.text)
         self.currentRoom=nextRoom
-        print(nextRoom, "Here is our response")
+
+    def pilfer(self):
+        if len(self.currentRoom['items']) > 0:
+            data={"name": "treasure"}
+            res=requests.post(
+            'https://lambda-treasure-hunt.herokuapp.com/api/adv/take/', headers=headers, data=json.dumps(data)
+            )
+    
+    def status(self):
+        res=requests.post(
+            'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/', headers=headers
+            )
+        print("-------------------------------STATUS-------------------------------------", json.loads(res.text))
+        
+
+
         
