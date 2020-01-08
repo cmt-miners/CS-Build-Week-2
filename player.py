@@ -1,10 +1,10 @@
 import requests
 import json 
 
-jamie_api_key= 'Token 6b056b046e07f644c8a86d42fb659a70821439c2'
+bryce_api_key= 'Token bb4910f9cec94810c3f792f382142798869e311a'
 
 headers = {
-    'Authorization': jamie_api_key,
+    'Authorization': bryce_api_key,
     'Content-Type': 'application/json'
 }
 

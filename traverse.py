@@ -1,24 +1,9 @@
 from player import Player
 import time 
 
-player=Player('jamie', 0)
+player=Player('Bryce', 0)
 player.init()
 
-
-# player.init()
-# time.sleep(16)
-# player.travel("n")
-# while True: 
-#     cmds=input("->").lower().split(" ")
-#     print("Did we get to line 10?")
-#     # if cmds[0] in ["n", "s", "e", "w"]:
-#     move=input('INPUT A DIRECTION')
-#     if move == 'n':
-#         player.travel("n")
-
-
-# Keep track of position somehow??
-#  from room import Room
 
 traversalPath = []
 #-----------
@@ -27,9 +12,27 @@ rooms=[]
 reverse=[]
 #-----------
 while len(copy) < 500:
-  print("----------------------COPY------------------------------------", copy)
-  print("----------------------ROOMS------------------------------------", rooms)
-  print("----------------------Current room in while loop----------------", player.currentRoom)
+  # print("----------------------COPY------------------------------------", copy)
+  # print("----------------------ROOMS------------------------------------", rooms)
+  """formating the data
+  {'room_id': 328, 'title': 'A misty room', 'description': 'You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.', 'coordinates': '(57,70)', 'elevation': 0, 'terrain': 'NORMAL', 'players': [], 'items': [], 'exits': ['n', 's', 'e', 'w'], 'cooldown': 15.0, 'errors': [], 'messages': ['You have walked west.']}
+
+
+  """
+  if player.currentRoom is not None:
+    print(f"//=========current while loop info=================//")
+    print("room_id:", player.currentRoom['room_id'])
+    print('TITLE:', player.currentRoom['title'])
+    print(f"messages:",player.currentRoom['messages'])
+    print(f'cooldown',player.currentRoom['cooldown'])
+    print(f"//===============================================//")
+
+
+
+
+
+
+
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
   if len(player.currentRoom['items']) > 0:
@@ -127,135 +130,6 @@ while len(copy) < 500:
 
 
 """
-
-const express = require('express');
-const server = express();
-const bodyParser = require('body-parser');
-
-const db = require('./dbConfig');
-const cors = require('cors');
-const axios = require('axios');
-const { Client } = require('pg');
-
-server.use(cors());
-server.use(express.json());
-server.use(bodyParser())
-
-server.get('/players', (req, res) => {
-  db.select()
-    .from('players')
-    .then(players => {
-      res.send(players);
-    });
-});
-
-server.get('/players/:playerID', (req, res) => {
-  db.select()
-    .from('players')
-    .where('playerID', req.params.playerID)
-    .then(players => {
-      res.send(players);
-    });
-});
-
-server.get('/map', (req, res) => {
-  db.select()
-    .from('map')
-    .then(map => {
-      res.send(map);
-    });
-});
-
-server.get('/map:room_id', (req, res) => {
-  db.select()
-    .from('map')
-    .where('room_id', req.params.room_id)
-    .then(map => {
-      res.send(map);
-    });
-});
-
-server.post('/players', (req, res) => {
-  db('players')
-    .insert(req.body)
-    .then(() => {
-      db.select()
-        .from('players')
-        .then(players => {
-          res.send(players);
-        });
-    });
-});
-
-server.post('/map', (req, res) => {
-  db('map')
-    .insert(req.body)
-    .then(() => {
-      db.select()
-        .from('map')
-        .then(map => {
-          res.send(map);
-        });
-    });
-});
-
-server.put('/players/update/:playerID', (req, res) => {
-  db.select()
-    .from('players')
-    .where('playerID', req.params.playerID)
-    .update(req.body)
-    .then(players => {
-      db.select()
-        .from('players')
-        .where('playerID', req.params.playerID)
-        .then(players => {
-          res.send(players);
-        });
-    });
-});
-
-server.put('/map/update/:room_id', (req, res) => {
-  db.select()
-    .from('map')
-    .where('room_id', req.params.room_id)
-    .update(req.body)
-    .then(map => {
-      db.select()
-        .from('map')
-        .where('room_id', req.params.room_id)
-        .then(map => {
-          res.send(map);
-        });
-    });
-});
-
-let treasureMap = {};
-let completeMap = [];
-// -------- Pseudo DB until static db is created ----------
-
-class Room {
-  constructor(room_id, title, coordinates, items, exits, cooldown) {
-    this.room_id = room_id;
-    this.title = title;
-    this.coordinates = [
-      Number(coordinates.replace(/[(](\d+)\s?[,]\s?(\d+)[)]/, '$1')),
-      Number(coordinates.replace(/[(](\d+)\s?[,]\s?(\d+)[)]/, '$2'))
-    ];
-    this.items = items;
-    this.exits = exits;
-    this.cooldown = cooldown;
-  }
-}
-
-class MapNode {
-  constructor(room_id, coordinates, exits) {
-    (this.room_id = room_id),
-      (this.coordinates = coordinates),
-      (this.exits = exits);
-  }
-}
-
-
 
 
 const PORT = 5050;
