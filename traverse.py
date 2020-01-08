@@ -1,47 +1,111 @@
 from player import Player
 import time 
 
-player=Player('Bryce', 0)
+player=Player('jamie', 0)
 player.init()
+
+
+
+
+#-------------------------------- NAME CHANGE ------------------------------#
+
+# if player.currentRoom['room_id'] == 467:
+#   time.sleep(player.currentRoom['cooldown'])
+#   player.name_change()
+#   time.sleep(35)
+#   player.status()
+
+
+
+
+
+
+
+#-------------------------------- STORE / From room_id 63 ------------------------------#
+
+
+
+
+
+
+#-------------------------------- STORE / From room_id 0 ------------------------------#
+
+
+# time.sleep(player.currentRoom['cooldown'])
+# # player.travel("w")
+# # time.sleep(player.currentRoom['cooldown'])
+# player.sell()
+# time.sleep(5)
+# player.status()
+
+
+# ------------------------------ DROP -------------------------------#
+
+# time.sleep(player.currentRoom['cooldown'])
+# player.drop()
+# time.sleep(10)
+# player.status()
+
+
+
+# ------------------------------ TRAVERSAL -------------------------#
+
+
+
+
 
 
 traversalPath = []
 #-----------
 copy={} 
-rooms=[]
+rooms={}
 reverse=[]
 #-----------
 while len(copy) < 500:
-  # print("----------------------COPY------------------------------------", copy)
-  # print("----------------------ROOMS------------------------------------", rooms)
-  """formating the data
-  {'room_id': 328, 'title': 'A misty room', 'description': 'You are standing on grass and surrounded by a dense mist. You can barely make out the exits in any direction.', 'coordinates': '(57,70)', 'elevation': 0, 'terrain': 'NORMAL', 'players': [], 'items': [], 'exits': ['n', 's', 'e', 'w'], 'cooldown': 15.0, 'errors': [], 'messages': ['You have walked west.']}
-
-
-  """
+  print("----------------------COPY------------------------------------", copy)
+  print("----------------------ROOMS------------------------------------", rooms)
+  # print("----------------------Current room in while loop----------------", player.currentRoom)
   if player.currentRoom is not None:
+    f = open("map.txt","a+")
+    f.write("\n")
+    f.write(str(player.currentRoom))
+
+    # if player.currentRoom['room_id'] == 55:
+    if player.currentRoom['room_id'] == 63:
+      time.sleep(player.currentRoom['cooldown'])
+      player.travel("s")
+      time.sleep(player.currentRoom['cooldown'])
+      player.travel("s")
+      time.sleep(player.currentRoom['cooldown'])
+      player.travel("s")
+      time.sleep(player.currentRoom['cooldown'])
+      player.travel("s")
+      time.sleep(player.currentRoom['cooldown'])
+      player.travel("w")
+      time.sleep(player.currentRoom['cooldown'])
+      player.sell()
+      time.sleep(5)
+      player.status()
+  # if player.currentRoom['room_id'] == 467:
+#   time.sleep(player.currentRoom['cooldown'])
+#   player.name_change()
+#   time.sleep(35)
+#   player.status()
     print(f"//=========current while loop info=================//")
     print("room_id:", player.currentRoom['room_id'])
     print('TITLE:', player.currentRoom['title'])
     print(f"messages:",player.currentRoom['messages'])
     print(f'cooldown',player.currentRoom['cooldown'])
+    print(f'exits:',player.currentRoom['exits'])
     print(f"//===============================================//")
-
-
-
-
-
-
-
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
-  if len(player.currentRoom['items']) > 0:
-    player.pilfer()
-    time.sleep(8)
+#   if len(player.currentRoom['items']) > 0:
+#     player.pilfer()
+#     time.sleep(8)
   time.sleep(2)
   player.status()
   time.sleep(2)
-  roomObj=player.currentRoom
   curRoom=player.currentRoom['room_id']
   if curRoom not in copy:
     copy[curRoom]=curRoom 
@@ -53,8 +117,44 @@ while len(copy) < 500:
     copy[curRoom]=curExits
   
   curExits=copy[curRoom]
-  if roomObj not in rooms:
-      rooms.append(roomObj)
+
+  if curRoom not in rooms:
+      rooms[curRoom]=curRoom
+      roomObj=player.currentRoom
+      rooms[curRoom]=roomObj
+
+
+# Break for finding name changer 
+
+#   if player.currentRoom['room_id']==467:
+#       print("*****************NAME CHANGE********************************")
+#       break
+
+# Breaks for finding store, west of 0
+
+  # if player.currentRoom['room_id']==0:
+  #     print("*****************SELL********************************")
+  #     break
+
+  # if player.currentRoom['room_id']==10:
+  #     print("*****************SELL********************************")
+  #     break
+
+  # if player.currentRoom['room_id']==19:
+  #     print("*****************SELL********************************")
+  #     break
+
+  # if player.currentRoom['room_id']==20:
+  #     print("*****************SELL********************************")
+  #     break
+
+  # if player.currentRoom['room_id']==63:
+  #     print("*****************SELL********************************")
+  #     break
+
+  # if player.currentRoom['title']=='shop':
+  #     print("*****************SELL********************************")
+  #     break
 
   if 'n' in copy[curRoom] and curExits['n'] == 'unknown':
     print(copy[curRoom], "Currently")
@@ -126,37 +226,5 @@ while len(copy) < 500:
     player.travel(reversal)
     traversalPath.append(reversal)
 
+#--------------------------- TRAVERSAL ---------------------------------#
 
-
-
-"""
-
-
-const PORT = 5050;
-
-const getUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/';
-const moveUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/move/';
-
-
-const takeUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/take/';
-const dropUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/drop/';
-const sellUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/sell/';
-const statusUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/';
-const examineUrl =
-  'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/';
-// const wearUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/wear/';
-// const changeNameUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/';
-// const prayUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/pray/';
-// const flyUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/fly/';
-// const dashUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/dash/';
-// const carryUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/carry/';
-// const receiveUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/receive/';
-// const mineUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/bc/mine/';
-// const proofUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/bc/last_proof/';
-// const balanceUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/bc/get_balance/';
-// const transmorgrifyUrl = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/transmogrify/';
-
-
-
-
-"""
