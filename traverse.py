@@ -1,6 +1,6 @@
 from player import Player
 import time
-player=Player('jamie', 0)
+player=Player('Jacob', 0)
 player.init()
 #-------------------------------- NAME CHANGE ------------------------------#
 # if player.currentRoom['room_id'] == 467:
@@ -33,11 +33,10 @@ reverse=[]
 enable_print_definer = True # Nice looking print statements that clearly indicate what youre looking at
 enable_json_room_print = True # Enables a print out of the rooms in the console
 enable_json_room_write = False # Prints new rooms to the end of a .json file
-enable_high_print = True
-enable_low_print = True
+enable_print_current_loop = True # Prints loop info
 enable_pickups = True
 enable_drops = True
-
+loop_count = 0
 while len(copy) < 500:
 
   ''' JSON Room Print's & Write to File'''
@@ -64,7 +63,18 @@ while len(copy) < 500:
     if enable_json_room_write is True:
       print("We should write the current room to the end of a file.")
 
-  ''' Loop info Prints '''
+  ''' Current loop Prints '''
+  if enable_print_current_loop is True:
+    loop_count = loop_count +1
+    print("\n")
+    print(f"Loop Number: {loop_count}")
+    print(f"{player.name}, {player.currentRoom['description']}")
+    print(f"room: {player.currentRoom['room_id']}, {player.currentRoom['title']}")
+    print(f"exits: {player.currentRoom['exits']}")
+    print(f"cooldown: {player.currentRoom['cooldown']}")
+    print(f"messages: {player.currentRoom['messages']}")
+    print(f"errors: {player.currentRoom['errors']}")
+
 
   # print("----------------------Current room in while loop----------------", player.currentRoom)
   if player.currentRoom is not None:
