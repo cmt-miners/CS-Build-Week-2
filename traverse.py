@@ -5,25 +5,70 @@ player=Player('jamie', 0)
 player.init()
 
 
-# player.init()
-# time.sleep(16)
-# player.travel("n")
-# while True: 
-#     cmds=input("->").lower().split(" ")
-#     print("Did we get to line 10?")
-#     # if cmds[0] in ["n", "s", "e", "w"]:
-#     move=input('INPUT A DIRECTION')
-#     if move == 'n':
-#         player.travel("n")
 
 
-# Keep track of position somehow??
-#  from room import Room
+#-------------------------------- NAME CHANGE ------------------------------#
+
+
+# time.sleep(player.currentRoom['cooldown'])
+# player.name_change()
+# time.sleep(35)
+# player.status()
+
+
+
+
+
+#-------------------------------- STORE / From room_id 63 ------------------------------#
+
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("w")
+# time.sleep(player.currentRoom['cooldown'])
+# player.sell()
+# time.sleep(5)
+# player.status()
+
+
+
+#-------------------------------- STORE / From room_id 0 ------------------------------#
+
+
+# time.sleep(player.currentRoom['cooldown'])
+# # player.travel("w")
+# # time.sleep(player.currentRoom['cooldown'])
+# player.sell()
+# time.sleep(5)
+# player.status()
+
+
+# ------------------------------ DROP -------------------------------#
+
+# time.sleep(player.currentRoom['cooldown'])
+# player.drop()
+# time.sleep(10)
+# player.status()
+
+
+
+# ------------------------------ TRAVERSAL -------------------------#
+
+
+
+
+
 
 traversalPath = []
 #-----------
 copy={} 
-rooms=[]
+rooms={}
 reverse=[]
 #-----------
 while len(copy) < 500:
@@ -32,13 +77,12 @@ while len(copy) < 500:
   print("----------------------Current room in while loop----------------", player.currentRoom)
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
-  if len(player.currentRoom['items']) > 0:
-    player.pilfer()
-    time.sleep(8)
+#   if len(player.currentRoom['items']) > 0:
+#     player.pilfer()
+#     time.sleep(8)
   time.sleep(2)
   player.status()
   time.sleep(2)
-  roomObj=player.currentRoom
   curRoom=player.currentRoom['room_id']
   if curRoom not in copy:
     copy[curRoom]=curRoom 
@@ -50,8 +94,44 @@ while len(copy) < 500:
     copy[curRoom]=curExits
   
   curExits=copy[curRoom]
-  if roomObj not in rooms:
-      rooms.append(roomObj)
+
+  if curRoom not in rooms:
+      rooms[curRoom]=curRoom
+      roomObj=player.currentRoom
+      rooms[curRoom]=roomObj
+
+
+# Break for finding name changer 
+
+#   if player.currentRoom['room_id']==467:
+#       print("*****************NAME CHANGE********************************")
+#       break
+
+# Breaks for finding store, west of 0
+
+#   if player.currentRoom['room_id']==0:
+#       print("*****************SELL********************************")
+#       break
+
+#   if player.currentRoom['room_id']==10:
+#       print("*****************SELL********************************")
+#       break
+
+#   if player.currentRoom['room_id']==19:
+#       print("*****************SELL********************************")
+#       break
+
+#   if player.currentRoom['room_id']==20:
+#       print("*****************SELL********************************")
+#       break
+
+#   if player.currentRoom['room_id']==63:
+#       print("*****************SELL********************************")
+#       break
+
+#   if player.currentRoom['title']=='shop':
+#       print("*****************SELL********************************")
+#       break
 
   if 'n' in copy[curRoom] and curExits['n'] == 'unknown':
     print(copy[curRoom], "Currently")
@@ -122,6 +202,13 @@ while len(copy) < 500:
     # time.sleep(curCooldown)
     player.travel(reversal)
     traversalPath.append(reversal)
+
+
+
+
+
+#--------------------------- TRAVERSAL ---------------------------------#
+
 
 
 
