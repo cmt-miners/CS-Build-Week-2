@@ -1,7 +1,7 @@
 from player import Player
 import time 
 
-player=Player('jamie', 0)
+player=Player('Jtonna', 0)
 player.init()
 
 
@@ -9,15 +9,10 @@ player.init()
 
 #-------------------------------- NAME CHANGE ------------------------------#
 
-
 # time.sleep(player.currentRoom['cooldown'])
 # player.name_change()
 # time.sleep(35)
 # player.status()
-
-
-
-
 
 #-------------------------------- STORE / From room_id 63 ------------------------------#
 
@@ -36,10 +31,7 @@ player.init()
 # time.sleep(5)
 # player.status()
 
-
-
 #-------------------------------- STORE / From room_id 0 ------------------------------#
-
 
 # time.sleep(player.currentRoom['cooldown'])
 # # player.travel("w")
@@ -48,7 +40,6 @@ player.init()
 # time.sleep(5)
 # player.status()
 
-
 # ------------------------------ DROP -------------------------------#
 
 # time.sleep(player.currentRoom['cooldown'])
@@ -56,14 +47,7 @@ player.init()
 # time.sleep(10)
 # player.status()
 
-
-
 # ------------------------------ TRAVERSAL -------------------------#
-
-
-
-
-
 
 traversalPath = []
 #-----------
@@ -71,18 +55,27 @@ copy={}
 rooms={}
 reverse=[]
 #-----------
+
+# Variables for toggling things off and on easily
+pick_up_items = True
+
 while len(copy) < 500:
-  print("----------------------COPY------------------------------------", copy)
-  print("----------------------ROOMS------------------------------------", rooms)
-  print("----------------------Current room in while loop----------------", player.currentRoom)
+  print("COPY---\n", copy)
+  print("ROOMS---\n", rooms)
+  print("CURRENT ROOM---\n", player.currentRoom)
+
+  # Print Statements for current loop as well as a list of rooms, & a copy of them.
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
-#   if len(player.currentRoom['items']) > 0:
-#     player.pilfer()
-#     time.sleep(8)
-  time.sleep(2)
+
+  # Picks up treasure thats needed for name change
+  if len(player.currentRoom['items']) > 0:
+    player.pilfer()
+    time.sleep(8)
+
   player.status()
   time.sleep(2)
+
   curRoom=player.currentRoom['room_id']
   if curRoom not in copy:
     copy[curRoom]=curRoom 
