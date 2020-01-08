@@ -30,12 +30,12 @@ reverse=[]
 #-----------
 
 # ------------------------------ SETTINGS ---------------------------#
-enable_print_definer = True # Nice looking print statements that clearly indicate what youre looking at
-enable_json_room_print = True # Enables a print out of the rooms in the console
+enable_json_room_print = False # Enables a print out of the rooms in the console
 enable_json_room_write = False # Prints new rooms to the end of a .json file
-enable_print_current_loop = True # Prints loop info
-enable_pickups = True
-enable_drops = True
+enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
+
+# ------
+
 loop_count = 0
 while len(copy) < 500:
 
@@ -61,7 +61,7 @@ while len(copy) < 500:
     
     # File Writes
     if enable_json_room_write is True:
-      print("We should write the current room to the end of a file.")
+      print("We should write the current room to the end of a file.") # Todo, but not mvp
 
   ''' Current loop Prints '''
   if enable_print_current_loop is True:
@@ -74,6 +74,9 @@ while len(copy) < 500:
     print(f"cooldown: {player.currentRoom['cooldown']}")
     print(f"messages: {player.currentRoom['messages']}")
     print(f"errors: {player.currentRoom['errors']}")
+    print(f"Enemies Nearby: {player.currentRoom['players']}")
+  else:
+    print("Should print things only if they change from the previous loop.") # Todo, but not mvp
 
 
   # print("----------------------Current room in while loop----------------", player.currentRoom)
@@ -98,13 +101,6 @@ while len(copy) < 500:
 #   player.name_change()
 #   time.sleep(35)
 #   player.status()
-    print(f"//=========current while loop info=================//")
-    print("room_id:", player.currentRoom['room_id'])
-    print('TITLE:', player.currentRoom['title'])
-    print(f"messages:",player.currentRoom['messages'])
-    print(f'cooldown',player.currentRoom['cooldown'])
-    print(f'exits:',player.currentRoom['exits'])
-    print(f"//===============================================//")
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
 #   if len(player.currentRoom['items']) > 0:
