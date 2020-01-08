@@ -3,9 +3,10 @@ import json
 import time
 
 jamie_api_key= 'Token 6b056b046e07f644c8a86d42fb659a70821439c2'
+jacob_api_key= 'Token 5aa999d43330eefb245d81fe9f486056d4c4030f'
 
 headers = {
-    'Authorization': jamie_api_key,
+    'Authorization': jacob_api_key,
     'Content-Type': 'application/json'
 }
 
@@ -82,8 +83,3 @@ class Player:
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/', headers=headers, data=json.dumps(data2)
         )
         print("--------", res.text, "NAME CHANGE")
-
-
-
-
-        
