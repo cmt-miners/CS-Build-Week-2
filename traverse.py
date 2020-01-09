@@ -14,20 +14,28 @@ reverse=[]
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
 # ---------------------
-enable_traversal = True                 # Would you like to move around rooms to generate a map?
+test = True                            # Sleep & then test some code & then sleep for 5000 seconds
+enable_traversal = True                 # Would you like to move around rooms?
 enable_logging = True                   # Enables the ability for console printing and or logging in a .json file
 enable_room_prints = True               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True             # Prints new rooms to the end of a .json file
 enable_print_current_loop = True        # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = False                   # Enable or disable picking up items
-randomly_traverse = True                # Enable Traversal for Map Generation
 need_1000_gold = True                   # If you need 1000 gold do this
-sell_items = True                       # If your inventory is filling up, it will sell your items automatically.
+
+# These settings will require "randomly_traverse" to be True & will set it to True if it is not already
+sell_items = True                       # Would you like to sell items??.
 
 # --------------------------------------------------------------------
-
 loop_count = 0
 while len(copy) < 500:
+
+  ''' Testing '''
+  if test is True:
+    time.sleep(player.currentRoom['cooldown'])
+    # Code here
+    time.sleep(5000)
+
   ''' JSON Room Print's & Write to File'''
   if enable_logging is True:
 
@@ -79,25 +87,18 @@ while len(copy) < 500:
   else:
     print("Should print things only if they change from the previous loop.") # Todo, but not mvp
 
-  ''' Pilfering '''
-  if enable_pilfer is True:
-    if need_1000_gold == True:
-      # Look at current items
-      if len(player.currentRoom['items']) > 0:
-        player.pilfer()
-        time.sleep(8)
-
-  ''' Selling Items '''
-  if sell_items is True:
-    # If user has more than 3 small treasures, sell them
-    # If user has more than 
-    pass
-
   ''' Variables '''
   roomObj = player.currentRoom                    # Sets the current room to an Obj
   theCurrentRoom = roomObj['room_id']             # Sets the current room id to a variable
   theCurrentCooldown = roomObj['cooldown']        # Sets the cooldown period to a variable
   theCurrentExits = {}                            # Sets an in-memory Dictionary of the exits for the current room
+  
+  ''' Pilfering '''
+  if enable_pilfer is True:
+    if need_1000_gold == True:
+      if len(player.currentRoom['items']) > 0:
+        player.pilfer()
+        time.sleep(8)
 
   ''' Sleep & then get Status '''
   time.sleep(theCurrentCooldown)
@@ -113,7 +114,6 @@ while len(copy) < 500:
       theCurrentExits[exit] = "unknown"
 
     copy[theCurrentRoom] = theCurrentExits
-
   theCurrentExits = copy[theCurrentRoom]
 
   # if theCurrentRoom isn't in the "rooms" dict, we have to add it too.
@@ -121,10 +121,72 @@ while len(copy) < 500:
     rooms[theCurrentRoom] = theCurrentRoom # Just the rooms ID
     rooms[theCurrentRoom] = roomObj # This is the whole room Object (including user status)
 
+  ''' Selling Items '''
+  if sell_items is True:
+    ways_to_store=["0", "4", "10", "125"]
 
+    # Disable traversal if its Enabled & if we know how to get to the store
+    if enable_traversal is True and theCurrentRoom in ways_to_store:
+      print("**** Warning: enable_traversal is enabled, we want to pause after we sell items, so now we are going to to disable it in-memory for this session..")
+      enable_traversal = False
+    
+    # Function to sell items
+    def time_to_sell():
+      print("************** Attempting to sell items")
+      time.sleep(theCurrentCooldown)
+      player.status()
+      time.sleep(theCurrentCooldown)
+      player.sell()
+      time.sleep(theCurrentCooldown)
+      player.status()
+      print("************** Attempt Over")
+      print("Initializing 10 hour sleep")
+      time.sleep(36000)
+
+    
+    # 262 - > Store
+    if theCurrentRoom is 262:
+      directions = ["n","n","w","n","w","s","w","w","n","n","n","n","n","n","w","n","w"]
+        for x in directions:
+          player.sleep(theCurrentCooldown)
+          pl ayer.travel(x)
+      time_to_sell()
+
+    # 125 -> Store
+    if theCurrentRoom is 125:
+      directions = ["e","s","e","s","s","s","s","s","s","w"]
+      for x in directions:
+        player.sleep(theCurrentCooldown)
+        player.travel(x)
+      time_to_sell()
+    
+    # 10 -> Store
+    if theCurrentRoom is 10:
+      directions = ["s","w"]
+      for x in directions:
+        player.sleep(theCurrentCooldown)
+        player.travel(x)
+      time_to_sell()
+    
+    # room 4 -> store
+    if theCurrentRoom is 4:
+      directions = ["e","w"]
+      for x in directions:
+        player.sleep(theCurrentCooldown)
+        player.travel(x)
+      time_to_sell()
+
+    # 0 -> Store
+    if theCurrentRoom is 0:
+      time.sleep(theCurrentCooldown)
+      player.travel("w")
+      time_to_sell()
+
+  paths_to_store = None
+  store_id = 0
   ''' Traversal Logic '''
   # Traversal Code
-  if randomly_traverse is True:
+  if enable_traversal is True:
     if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
       print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['n']=='unknown':
