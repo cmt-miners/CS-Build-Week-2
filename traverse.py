@@ -7,6 +7,33 @@ player.init()
 
 
 
+
+#-------------------------------- Well from room_id 27------------------------------#
+
+
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("w")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("s")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("e")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("n")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("e")
+# time.sleep(player.currentRoom['cooldown'])
+# player.travel("e")
+# time.sleep(player.currentRoom['cooldown'])
+# player.examine()
+
+
+
+
+
 #-------------------------------- NAME CHANGE ------------------------------#
 
 
@@ -67,7 +94,7 @@ player.init()
 
 traversalPath = []
 #-----------
-copy={} 
+copy={}
 rooms={}
 reverse=[]
 #-----------
@@ -75,6 +102,7 @@ while len(copy) < 500:
   print("----------------------COPY------------------------------------", copy)
   print("----------------------ROOMS------------------------------------", rooms)
   print("----------------------Current room in while loop----------------", player.currentRoom)
+  print("-------------------------COPY LENGTH-------------------------------", len(copy))
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
 #   if len(player.currentRoom['items']) > 0:
@@ -99,6 +127,12 @@ while len(copy) < 500:
       rooms[curRoom]=curRoom
       roomObj=player.currentRoom
       rooms[curRoom]=roomObj
+
+# Break for finding name changer 
+
+  if player.currentRoom['room_id']==119:
+      print("*****************MINE MINE MINE********************************")
+      break
 
 
 # Break for finding name changer 
