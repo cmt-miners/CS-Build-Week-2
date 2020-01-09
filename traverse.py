@@ -71,12 +71,15 @@ while len(copy) < 500:
 
       # If the file we are looking for exists we can write to it, else we have to create it and then write to it.
       if os.path.isfile(f"{player.name}s_room_log.json"):
-              print(f"file exists")
+        f = open(f"{player.name}s_room_log.json", "a+")
+        fixedJSON = json.dumps(player.currentRoom)
+        f.write(f"{fixedJSON},\n")
+        f.close()
       else:
         # Create the file, set player.currentRoom to a string & replace all ' with " then write the string to the file
         f = open(f"{player.name}s_room_log.json", "w+")
         fixedJSON = json.dumps(player.currentRoom)
-        f.write(f"{fixedJSON}")
+        f.write(f"{fixedJSON},\n")
         f.close()
 
 
