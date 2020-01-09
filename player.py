@@ -24,6 +24,7 @@ class Player:
             data={"direction": "e"}
         if direction == "w":
             data={"direction": "w"}
+        
         res=requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/move/', headers=headers, data=json.dumps(data)
         )
@@ -61,26 +62,33 @@ class Player:
         print("STATUS------- \n    ", json.loads(res.text))
         
     def sell(self):
-        data1={"name": "treasure"}
-        res=requests.post(
+        data1 = {"name": "treasure"}
+        res = requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/sell/', headers=headers, data=json.dumps(data1)
         )
-        print("-------", res.text, "SELLING MY TREASURE")
+        print("--------", res.text, "SELLING MY TREASURE")
         time.sleep(5)
-        data2={"name": "treasure", "confirm": "yes"}
-        res=requests.post(
+        data2 = {"name": "treasure", "confirm": "yes"}
+        res = requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/sell/', headers=headers, data=json.dumps(data2)
         )
 
     def name_change(self):
-        data1={"name":"[Jtonna]"}
-        res=requests.post(
+        data1 = {"name":"[Jtonna]"}
+        res = requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/', headers=headers, data=json.dumps(data1)
         )
         print("--------", res.text, "NAME CHANGE")
         time.sleep(35)
-        data2={"name":"[Jtonna]", "confirm": "aye"}
-        res=requests.post(
+        data2 = {"name":"[Jtonna]", "confirm": "aye"}
+        res = requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/', headers=headers, data=json.dumps(data2)
         )
         print("--------", res.text, "NAME CHANGE")
+    
+    def wishing_well(self):
+        data = {"name":"Wishing Well"}
+        res = requests.post(
+            'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/', headers=headers, data=json.dumps(data)
+        )
+        print("--------", res.txt, "WISHING WELL INFO")
