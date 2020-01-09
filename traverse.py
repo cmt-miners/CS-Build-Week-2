@@ -1,6 +1,7 @@
 from player import Player
 import time
 import os.path
+import json
 
 player=Player('Jtonna', 0)
 player.init()
@@ -69,15 +70,14 @@ while len(copy) < 500:
     if enable_json_room_log is True:
 
       # If the file we are looking for exists we can write to it, else we have to create it and then write to it.
-    if os.path.isfile(f"{player.name}s_room_log.json"):
-            print(f"file exists")
-    else:
-      # Create the file and add JSON brackets
-      f = open(f"{player.name}s_room_log.json", "w+")
-      f.write("{")
-      f.write(f"\n{player.currentRoom}\n")  
-      f.write("}")
-      f.close()
+      if os.path.isfile(f"{player.name}s_room_log.json"):
+              print(f"file exists")
+      else:
+        # Create the file, set player.currentRoom to a string & replace all ' with " then write the string to the file
+        f = open(f"{player.name}s_room_log.json", "w+")
+        fixedJSON = json.dumps(player.currentRoom)
+        f.write(f"{fixedJSON}")
+        f.close()
 
 
 
