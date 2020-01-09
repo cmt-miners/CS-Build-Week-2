@@ -58,4 +58,3 @@ if __name__ == "__main__":
         last_proof = get_last_proof()
         time.sleep(last_proof['cooldown'])
         new_proof = proof_of_work(last_proof)
-        # mine_res=mine(new_proof)
