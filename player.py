@@ -73,7 +73,7 @@ class Player:
         )
 
     def name_change(self):
-        data1={"name":"[Laird James Edgar Goodnight III]"}
+        data1={"name":"[Jtonna]"}
         res=requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/', headers=headers, data=json.dumps(data1)
         )
