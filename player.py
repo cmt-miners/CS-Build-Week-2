@@ -14,6 +14,7 @@ class Player:
     def __init__(self, name, startingRoom):
         self.name = name
         self.currentRoom = startingRoom
+
     def travel(self, direction):
         print("Direction", direction)
         if direction == "n":
@@ -59,7 +60,7 @@ class Player:
         res=requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/', headers=headers
             )
-        print("STATUS------- \n    ", json.loads(res.text))
+        print("Checking Status\n", json.loads(res.text))
         
     def sell(self):
         data1 = {"name": "treasure"}
@@ -91,4 +92,4 @@ class Player:
         res = requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/', headers=headers, data=json.dumps(data)
         )
-        print("--------", res.txt, "WISHING WELL INFO")
+        print("--------", res.text, "WISHING WELL INFO")
