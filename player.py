@@ -82,6 +82,13 @@ class Player:
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/', headers=headers, data=json.dumps(data2)
         )
         print("--------", res.text, "NAME CHANGE")
+    
+    def examine(self):
+        data={"name":"Wishing Well"}
+        res=requests.post(
+        'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/', headers=headers, data=json.dumps(data)
+        )
+        print("--------", res.text, "WISHING WELL INFO")
 
 
 
