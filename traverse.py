@@ -40,6 +40,8 @@ enable_room_prints = True # Prints a list of rooms we have been to on each loop,
 enable_json_room_log = True # Prints new rooms to the end of a .json file
 enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = True # Enable or disable picking up items
+randomly_traverse = False # Enable Traversal for Map Generation
+need_1000_gold = True # If you need 1000 gold do this
 
 # ------
 
@@ -97,7 +99,17 @@ while len(copy) < 500:
   else:
     print("Should print things only if they change from the previous loop.") # Todo, but not mvp
 
+  ''' Pilfering '''
+  if enable_pilfer is True:
 
+    if need_1000_gold == True:
+      # Look at current items
+      if len(player.currentRoom['items']) > 0:
+        player.pilfer()
+        time.sleep(8)
+
+  ''' Selling Items '''
+  
   # print("----------------------Current room in while loop----------------", player.currentRoom)
   if player.currentRoom is not None:
     if player.currentRoom['room_id'] == 63:
@@ -122,12 +134,10 @@ while len(copy) < 500:
 #   player.status()
   curCooldown=player.currentRoom['cooldown']
   time.sleep(curCooldown)
-#   if len(player.currentRoom['items']) > 0:
-#     player.pilfer()
-#     time.sleep(8)
   time.sleep(2)
   player.status()
   time.sleep(2)
+
   curRoom=player.currentRoom['room_id']
   if curRoom not in copy:
     copy[curRoom]=curRoom
@@ -136,6 +146,7 @@ while len(copy) < 500:
       curExits[exit]="unknown"
     copy[curRoom]=curExits
   curExits=copy[curRoom]
+
   if curRoom not in rooms:
       rooms[curRoom]=curRoom
       roomObj=player.currentRoom
@@ -163,72 +174,74 @@ while len(copy) < 500:
   # if player.currentRoom['title']=='shop':
   #     print("****************SELL*******************************")
   #     break
-  if 'n' in copy[curRoom] and curExits['n'] == 'unknown':
-    print(copy[curRoom], "Currently")
-    if curExits['n']=='unknown':
-    #   time.sleep(curCooldown)
-      player.travel("n")
-      traversalPath.append("n")
-      newRoom=player.currentRoom['room_id']
-      curExits['n']=newRoom
-      newExits={}
-      if newRoom not in copy:
-        for exit in player.currentRoom['exits']:
-          newExits[exit]="unknown"
-          copy[newRoom]=newExits
-        newExits['s']=curRoom
-      reverse.append('s')
 
-  elif 's' in copy[curRoom] and curExits['s'] == 'unknown':
-    print(copy[curRoom], "Currently")
-    if curExits['s']=='unknown':
-    #   time.sleep(curCooldown)
-      player.travel("s")
-      traversalPath.append("s")
-      newRoom=player.currentRoom['room_id']
-      curExits['s']=newRoom
-      newExits={}
-      if newRoom not in copy:
-        for exit in player.currentRoom['exits']:
-          newExits[exit]="unknown"
-          copy[newRoom]=newExits
-        newExits['n']=curRoom
-      reverse.append('n')
+  if randomly_traverse == True:
+    if 'n' in copy[curRoom] and curExits['n'] == 'unknown':
+      print(copy[curRoom], "Currently")
+      if curExits['n']=='unknown':
+      #   time.sleep(curCooldown)
+        player.travel("n")
+        traversalPath.append("n")
+        newRoom=player.currentRoom['room_id']
+        curExits['n']=newRoom
+        newExits={}
+        if newRoom not in copy:
+          for exit in player.currentRoom['exits']:
+            newExits[exit]="unknown"
+            copy[newRoom]=newExits
+          newExits['s']=curRoom
+        reverse.append('s')
 
-  elif 'e' in copy[curRoom] and curExits['e'] == 'unknown':
-    print(copy[curRoom], "Currently")
-    if curExits['e']=='unknown':
-    #   time.sleep(curCooldown)
-      player.travel("e")
-      traversalPath.append("e")
-      newRoom=player.currentRoom['room_id']
-      curExits['e']=newRoom
-      newExits={}
-      if newRoom not in copy:
-        for exit in player.currentRoom['exits']:
-          newExits[exit]="unknown"
-          copy[newRoom]=newExits
-        newExits['w']=curRoom
-      reverse.append('w')
-      
-  elif 'w' in copy[curRoom] and curExits['w'] == 'unknown':
-    print(copy[curRoom], "Currently")
-    if curExits['w']=='unknown':
-    #   time.sleep(curCooldown)
-      player.travel("w")
-      traversalPath.append("w")
-      newRoom=player.currentRoom['room_id']
-      curExits['w']=newRoom
-      newExits={}
-      if newRoom not in copy:
-        for exit in player.currentRoom['exits']:
-          newExits[exit]="unknown"
-          copy[newRoom]=newExits
-        newExits['e']=curRoom
-      reverse.append('e')
-  else:
-    reversal=reverse.pop()
-    # time.sleep(curCooldown)
-    player.travel(reversal)
-    traversalPath.append(reversal)
+    elif 's' in copy[curRoom] and curExits['s'] == 'unknown':
+      print(copy[curRoom], "Currently")
+      if curExits['s']=='unknown':
+      #   time.sleep(curCooldown)
+        player.travel("s")
+        traversalPath.append("s")
+        newRoom=player.currentRoom['room_id']
+        curExits['s']=newRoom
+        newExits={}
+        if newRoom not in copy:
+          for exit in player.currentRoom['exits']:
+            newExits[exit]="unknown"
+            copy[newRoom]=newExits
+          newExits['n']=curRoom
+        reverse.append('n')
+
+    elif 'e' in copy[curRoom] and curExits['e'] == 'unknown':
+      print(copy[curRoom], "Currently")
+      if curExits['e']=='unknown':
+      #   time.sleep(curCooldown)
+        player.travel("e")
+        traversalPath.append("e")
+        newRoom=player.currentRoom['room_id']
+        curExits['e']=newRoom
+        newExits={}
+        if newRoom not in copy:
+          for exit in player.currentRoom['exits']:
+            newExits[exit]="unknown"
+            copy[newRoom]=newExits
+          newExits['w']=curRoom
+        reverse.append('w')
+
+    elif 'w' in copy[curRoom] and curExits['w'] == 'unknown':
+      print(copy[curRoom], "Currently")
+      if curExits['w']=='unknown':
+      #   time.sleep(curCooldown)
+        player.travel("w")
+        traversalPath.append("w")
+        newRoom=player.currentRoom['room_id']
+        curExits['w']=newRoom
+        newExits={}
+        if newRoom not in copy:
+          for exit in player.currentRoom['exits']:
+            newExits[exit]="unknown"
+            copy[newRoom]=newExits
+          newExits['e']=curRoom
+        reverse.append('e')
+    else:
+      reversal=reverse.pop()
+      # time.sleep(curCooldown)
+      player.travel(reversal)
+      traversalPath.append(reversal)
 #--------------------------- TRAVERSAL ---------------------------------#
