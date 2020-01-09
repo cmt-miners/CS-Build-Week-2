@@ -139,6 +139,7 @@ while len(copy) < 500:
   ''' Traversal Logic '''
   # Traversal Code
   if randomly_traverse == True:
+    
     if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
       print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['n']=='unknown':
@@ -203,7 +204,7 @@ while len(copy) < 500:
           newExits['e']=theCurrentRoom
         reverse.append('e')
     else:
-      reversal=reverse.pop()
+      reversal = reverse.pop()
       # time.sleep(curCooldown)
       player.travel(reversal)
       traversalPath.append(reversal)
