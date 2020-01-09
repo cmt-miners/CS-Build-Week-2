@@ -13,17 +13,18 @@ reverse=[]
 
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
-enable_traversal = True # Would you like to move around rooms to generate a map?
-enable_logging = True # Enables the ability for console printing and or logging in a .json file
-enable_room_prints = True # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
-enable_json_room_log = True # Prints new rooms to the end of a .json file
-enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
-enable_pilfer = False # Enable or disable picking up items
-randomly_traverse = True # Enable Traversal for Map Generation
-need_1000_gold = True # If you need 1000 gold do this
-sell_items = True # If your inventory is filling up, it will sell your items automatically.
+# ---------------------
+enable_traversal = True                 # Would you like to move around rooms to generate a map?
+enable_logging = True                   # Enables the ability for console printing and or logging in a .json file
+enable_room_prints = True               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
+enable_json_room_log = True             # Prints new rooms to the end of a .json file
+enable_print_current_loop = True        # Prints info about the loop, cooldowns, messages errors etc
+enable_pilfer = False                   # Enable or disable picking up items
+randomly_traverse = True                # Enable Traversal for Map Generation
+need_1000_gold = True                   # If you need 1000 gold do this
+sell_items = True                       # If your inventory is filling up, it will sell your items automatically.
 
-# ------
+# --------------------------------------------------------------------
 
 loop_count = 0
 while len(copy) < 500:
