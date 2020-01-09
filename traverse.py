@@ -14,14 +14,14 @@ reverse=[]
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
 # ---------------------
-test = True                            # Sleep & then test some code & then sleep for 5000 seconds
+test = False                            # Sleep & then test some code & then sleep for 5000 seconds
 enable_traversal = True                 # Would you like to move around rooms?
 enable_logging = True                   # Enables the ability for console printing and or logging in a .json file
 enable_room_prints = True               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True             # Prints new rooms to the end of a .json file
 enable_print_current_loop = True        # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = False                   # Enable or disable picking up items
-need_1000_gold = True                   # If you need 1000 gold do this
+need_1000_gold = False                   # If you need 1000 gold do this
 
 # These settings will require "randomly_traverse" to be True & will set it to True if it is not already
 sell_items = True                       # Would you like to sell items??.
@@ -33,7 +33,8 @@ while len(copy) < 500:
   ''' Testing '''
   if test is True:
     time.sleep(player.currentRoom['cooldown'])
-    # Code here
+    player.status()
+    print(player.currentRoom['room_id'])
     time.sleep(5000)
 
   ''' JSON Room Print's & Write to File'''
@@ -123,7 +124,7 @@ while len(copy) < 500:
 
   ''' Selling Items '''
   if sell_items is True:
-    ways_to_store=["0", "4", "10", "125"]
+    ways_to_store=["0", "4", "10", "125", "262"]
 
     # Disable traversal if its Enabled & if we know how to get to the store
     if enable_traversal is True and theCurrentRoom in ways_to_store:
@@ -133,7 +134,7 @@ while len(copy) < 500:
     # Function to sell items
     def time_to_sell():
       print("************** Attempting to sell items")
-      time.sleep(theCurrentCooldown)
+      time.sleep(5)
       player.status()
       time.sleep(theCurrentCooldown)
       player.sell()
@@ -147,9 +148,9 @@ while len(copy) < 500:
     # 262 - > Store
     if theCurrentRoom is 262:
       directions = ["n","n","w","n","w","s","w","w","n","n","n","n","n","n","w","n","w"]
-        for x in directions:
-          player.sleep(theCurrentCooldown)
-          pl ayer.travel(x)
+      for x in directions:
+        player.sleep(theCurrentCooldown)
+        player.travel(x)
       time_to_sell()
 
     # 125 -> Store
@@ -180,6 +181,7 @@ while len(copy) < 500:
     if theCurrentRoom is 0:
       time.sleep(theCurrentCooldown)
       player.travel("w")
+      time.sleep(theCurrentCooldown)
       time_to_sell()
 
   paths_to_store = None
