@@ -82,8 +82,6 @@ while len(copy) < 500:
         f.write(f"{fixedJSON},\n")
         f.close()
 
-
-
   ''' Current loop Prints '''
   if enable_print_current_loop is True:
     loop_count = loop_count +1
