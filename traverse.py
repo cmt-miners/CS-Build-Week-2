@@ -30,9 +30,12 @@ reverse=[]
 #-----------
 
 # ------------------------------ SETTINGS ---------------------------#
+# True = on, False = off
+enable_traversal = True # Would you like to move around rooms to generate a map?
 enable_json_room_print = False # Enables a print out of the rooms in the console
 enable_json_room_write = False # Prints new rooms to the end of a .json file
 enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
+enable_pilfer = True # Enable or disable picking up items
 
 # ------
 
@@ -67,7 +70,7 @@ while len(copy) < 500:
   if enable_print_current_loop is True:
     loop_count = loop_count +1
     print("\n")
-    print(f"Loop Number: {loop_count}")
+    print(f"------- Loop Number: {loop_count} --------")
     print(f"{player.name}, {player.currentRoom['description']}")
     print(f"room: {player.currentRoom['room_id']}, {player.currentRoom['title']}")
     print(f"exits: {player.currentRoom['exits']}")
@@ -159,6 +162,7 @@ while len(copy) < 500:
           copy[newRoom]=newExits
         newExits['s']=curRoom
       reverse.append('s')
+
   elif 's' in copy[curRoom] and curExits['s'] == 'unknown':
     print(copy[curRoom], "Currently")
     if curExits['s']=='unknown':
@@ -174,6 +178,7 @@ while len(copy) < 500:
           copy[newRoom]=newExits
         newExits['n']=curRoom
       reverse.append('n')
+
   elif 'e' in copy[curRoom] and curExits['e'] == 'unknown':
     print(copy[curRoom], "Currently")
     if curExits['e']=='unknown':
@@ -189,6 +194,7 @@ while len(copy) < 500:
           copy[newRoom]=newExits
         newExits['w']=curRoom
       reverse.append('w')
+      
   elif 'w' in copy[curRoom] and curExits['w'] == 'unknown':
     print(copy[curRoom], "Currently")
     if curExits['w']=='unknown':
