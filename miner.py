@@ -18,17 +18,6 @@ def get_last_proof():
     print("LAST PROOF", res)
     return res
 
-def mine(proof):
-    # data = '{"proof": my_proof}'.replace("my_proof", str(proof))
-    proof = {"proof": int(proof)}
-    response = requests.post('https://lambda-treasure-hunt.herokuapp.com/api/bc/mine/', headers=headers, data=proof)
-
-    print("Did I mine a coin?", response)
-    res=json.loads(response.text)  
-    print(res)
-    time.sleep(res['cooldown'])
-    return res
-
 def proof_of_work(last_proof):
     """
 # Get the last valid proof to use to mine a new block. Also returns the current difficulty level, which is the number of 0's required at the beginning of the hash for a new proof to be valid.
@@ -47,7 +36,16 @@ def proof_of_work(last_proof):
         proof += 1
 
     print("MY PROOF", proof)
-    return proof
+   
+    new_proof = {"proof": int(proof)}
+    response = requests.post('https://lambda-treasure-hunt.herokuapp.com/api/bc/mine/', headers=headers, data=new_proof)
+
+    print("Did I mine a coin?", response)
+    res=json.loads(response.text)  
+    print(res)
+    time.sleep(res['cooldown'])
+    return res
+
 
 def valid_proof(last_hash, proof, difficulty):
     guess = f'{last_hash}{proof}'.encode()
@@ -60,4 +58,4 @@ if __name__ == "__main__":
         last_proof = get_last_proof()
         time.sleep(last_proof['cooldown'])
         new_proof = proof_of_work(last_proof)
-        mine_res=mine(new_proof)
+        # mine_res=mine(new_proof)
