@@ -109,7 +109,8 @@ while len(copy) < 500:
 
     # Generate a list of all of the possible exits for the current room
     for exit in player.currentRoom['exits']:
-      theCurrentExits['exit'] = "unknown"
+      theCurrentExits[exit] = "unknown"
+
     copy[theCurrentRoom] = theCurrentExits
 
   theCurrentExits = copy[theCurrentRoom]
@@ -118,6 +119,7 @@ while len(copy) < 500:
   if theCurrentRoom not in rooms:
     rooms[theCurrentRoom] = theCurrentRoom # Just the rooms ID
     rooms[theCurrentRoom] = roomObj # This is the whole room Object (including user status)
+
 
   ''' Traversal Logic '''
   # Traversal Code
@@ -138,7 +140,7 @@ while len(copy) < 500:
           newExits['s']=theCurrentRoom
         reverse.append('s')
 
-    elif 's' in copy[theCurrentRoom] and theCurrentExits['s'] == 'unknown':
+    elif 's' in copy[theCurrentRoom]:
       print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['s']=='unknown':
       #   time.sleep(curCooldown)
