@@ -45,19 +45,20 @@ class Player:
             res=requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/take/', headers=headers, data=json.dumps(data)
             )
+            print("PILFER------- \n", res.text, "TAKING TREASURE")
 
     def drop(self):
         data={"name": "treasure"}
         res=requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/drop/', headers=headers, data=json.dumps(data)
         )
-        print("-------", res.text, "DROPPING TREASURE")
+        print("DROP------- \n    ", res.text, "DROPPING TREASURE")
 
     def status(self):
         res=requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/', headers=headers
             )
-        print("-------------------------------STATUS-------------------------------------", json.loads(res.text))
+        print("STATUS------- \n    ", json.loads(res.text))
         
     def sell(self):
         data1={"name": "treasure"}
@@ -78,7 +79,7 @@ class Player:
         )
         print("--------", res.text, "NAME CHANGE")
         time.sleep(35)
-        data2={"name":"[Laird James Edgar Goodnight III]", "confirm": "aye"}
+        data2={"name":"[Jtonna]", "confirm": "aye"}
         res=requests.post(
         'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/', headers=headers, data=json.dumps(data2)
         )

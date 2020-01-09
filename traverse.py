@@ -1,6 +1,8 @@
 from player import Player
 import time
-player=Player('Jacob', 0)
+import os.path
+
+player=Player('Jtonna', 0)
 player.init()
 #-------------------------------- NAME CHANGE ------------------------------#
 # if player.currentRoom['room_id'] == 467:
@@ -32,8 +34,9 @@ reverse=[]
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
 enable_traversal = True # Would you like to move around rooms to generate a map?
-enable_json_room_print = False # Enables a print out of the rooms in the console
-enable_json_room_write = False # Prints new rooms to the end of a .json file
+enable_logging = True # Enables the ability for console printing and or logging in a .json file
+enable_console_prints = True
+enable_json_room_log = True # Prints new rooms to the end of a .json file
 enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = True # Enable or disable picking up items
 
@@ -43,10 +46,10 @@ loop_count = 0
 while len(copy) < 500:
 
   ''' JSON Room Print's & Write to File'''
-  if enable_json_room_print is True:
+  if enable_logging is True:
 
     # Console Prints copy & then room
-    if enable_print_definer is True:
+    if enable_console_prints is True:
 
       # Copy of Rooms
       print("Copy of Rooms ---")
@@ -63,14 +66,26 @@ while len(copy) < 500:
         print(    rooms)
     
     # File Writes
-    if enable_json_room_write is True:
-      print("We should write the current room to the end of a file.") # Todo, but not mvp
+    if enable_json_room_log is True:
+
+      # If the file we are looking for exists we can write to it, else we have to create it and then write to it.
+    if os.path.isfile(f"{player.name}s_room_log.json"):
+            print(f"file exists")
+    else:
+      # Create the file and add JSON brackets
+      f = open(f"{player.name}s_room_log.json", "w+")
+      f.write("{")
+      f.write(f"\n{player.currentRoom}\n")  
+      f.write("}")
+      f.close()
+
+
 
   ''' Current loop Prints '''
   if enable_print_current_loop is True:
     loop_count = loop_count +1
     print("\n")
-    print(f"------- Loop Number: {loop_count} --------")
+    print(f"------- Loop Number: {loop_count} -------")
     print(f"{player.name}, {player.currentRoom['description']}")
     print(f"room: {player.currentRoom['room_id']}, {player.currentRoom['title']}")
     print(f"exits: {player.currentRoom['exits']}")
