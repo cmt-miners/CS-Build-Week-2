@@ -36,7 +36,7 @@ reverse=[]
 # True = on, False = off
 enable_traversal = True # Would you like to move around rooms to generate a map?
 enable_logging = True # Enables the ability for console printing and or logging in a .json file
-enable_console_prints = True
+enable_room_prints = True # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True # Prints new rooms to the end of a .json file
 enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = True # Enable or disable picking up items
@@ -49,8 +49,8 @@ while len(copy) < 500:
   ''' JSON Room Print's & Write to File'''
   if enable_logging is True:
 
-    # Console Prints copy & then room
-    if enable_console_prints is True:
+    # Console Prints copy & then rooms
+    if enable_room_prints is True:
 
       # Copy of Rooms
       print("Copy of Rooms ---")
