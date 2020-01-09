@@ -14,6 +14,7 @@ class Player:
     def __init__(self, name, startingRoom):
         self.name = name
         self.currentRoom = startingRoom
+        currentStatus = {}
 
     def travel(self, direction):
         print("Direction", direction)
@@ -61,7 +62,11 @@ class Player:
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/', headers=headers
             )
         print("Checking Status\n", json.loads(res.text))
-        
+        self.currentStatus = json.loads(res.text)
+        # print(type(currentStatus))
+        # print(type(currentStatus['inventory']))
+        # print(currentStatus['inventory'])
+
     def sell(self):
         data1 = {"name": "treasure"}
         res = requests.post(

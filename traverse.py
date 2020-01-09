@@ -14,7 +14,7 @@ reverse=[]
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
 # ---------------------
-test = False                            # Sleep & then test some code & then sleep for 5000 seconds
+test = True                             # Sleep & then test some code & then sleep for 5000 seconds
 enable_traversal = True                 # Would you like to move around rooms?
 enable_logging = True                   # Enables the ability for console printing and or logging in a .json file
 enable_room_prints = True               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
@@ -34,7 +34,11 @@ while len(copy) < 500:
   if test is True:
     time.sleep(player.currentRoom['cooldown'])
     player.status()
-    print(player.currentRoom['room_id'])
+    print("************")
+    print(player.currentStatus['inventory'])
+    print("************")
+
+    # Set the status to a variable
     time.sleep(5000)
 
   ''' JSON Room Print's & Write to File'''
