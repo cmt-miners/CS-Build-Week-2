@@ -5,41 +5,20 @@ import json
 
 player=Player('Jtonna', 0)
 player.init()
-#-------------------------------- NAME CHANGE ------------------------------#
-# if player.currentRoom['room_id'] == 467:
-#   time.sleep(player.currentRoom['cooldown'])
-#   player.name_change()
-#   time.sleep(35)
-#   player.status()
-#-------------------------------- STORE / From room_id 63 ------------------------------#
-#-------------------------------- STORE / From room_id 0 ------------------------------#
-# time.sleep(player.currentRoom['cooldown'])
-# # player.travel("w")
-# # time.sleep(player.currentRoom['cooldown'])
-# player.sell()
-# time.sleep(5)
-# player.status()
-# ------------------------------ DROP -------------------------------#
-# time.sleep(player.currentRoom['cooldown'])
-# player.drop()
-# time.sleep(10)
-# player.status()
-# ------------------------------ TRAVERSAL --------------------------#
+
 traversalPath = []
-#-----------
 copy={}
 rooms={}
 reverse=[]
-#-----------
 
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
 enable_traversal = True # Would you like to move around rooms to generate a map?
 enable_logging = True # Enables the ability for console printing and or logging in a .json file
-enable_room_prints = False # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
+enable_room_prints = True # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True # Prints new rooms to the end of a .json file
 enable_print_current_loop = True # Prints info about the loop, cooldowns, messages errors etc
-enable_pilfer = True # Enable or disable picking up items
+enable_pilfer = False # Enable or disable picking up items
 randomly_traverse = True # Enable Traversal for Map Generation
 need_1000_gold = True # If you need 1000 gold do this
 sell_items = True # If your inventory is filling up, it will sell your items automatically.
@@ -48,7 +27,6 @@ sell_items = True # If your inventory is filling up, it will sell your items aut
 
 loop_count = 0
 while len(copy) < 500:
-
   ''' JSON Room Print's & Write to File'''
   if enable_logging is True:
 
@@ -120,6 +98,10 @@ while len(copy) < 500:
   theCurrentCooldown = roomObj['cooldown']        # Sets the cooldown period to a variable
   theCurrentExits = {}                            # Sets an in-memory Dictionary of the exits for the current room
 
+  ''' Sleep & then get Status '''
+  time.sleep(theCurrentCooldown)
+  player.status()
+
   ''' Add's current room to copy & rooms dict '''
   # If theCurrentRoom isn't in the "copy" dict, we need to add it & the exits
   if theCurrentRoom not in copy:
@@ -129,6 +111,7 @@ while len(copy) < 500:
     for exit in player.currentRoom['exits']:
       theCurrentExits['exit'] = "unknown"
     copy[theCurrentRoom] = theCurrentExits
+
   theCurrentExits = copy[theCurrentRoom]
 
   # if theCurrentRoom isn't in the "rooms" dict, we have to add it too.
@@ -138,8 +121,7 @@ while len(copy) < 500:
 
   ''' Traversal Logic '''
   # Traversal Code
-  if randomly_traverse == True:
-    
+  if randomly_traverse is True:
     if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
       print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['n']=='unknown':
@@ -205,6 +187,6 @@ while len(copy) < 500:
         reverse.append('e')
     else:
       reversal = reverse.pop()
-      # time.sleep(curCooldown)
+      # time.sleep(currentCooldown)
       player.travel(reversal)
       traversalPath.append(reversal)
