@@ -39,7 +39,7 @@ while len(copy) < 500:
     # Code to test here
     print("************")
 
-    # Set the status to a variable
+    # Sleep for a bit
     time.sleep(5000)
 
   ''' JSON Room Print's & Write to File'''
