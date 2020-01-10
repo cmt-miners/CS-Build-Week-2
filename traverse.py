@@ -15,16 +15,17 @@ reverse=[]
 # True = on, False = off
 # ---------------------
 test = False                             # Sleep & then test some code & then sleep for 5000 seconds
-enable_traversal = True                 # Would you like to move around rooms?
-enable_logging = True                   # Enables the ability for console printing and or logging in a .json file
-enable_room_prints = True               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
-enable_json_room_log = True             # Prints new rooms to the end of a .json file
-enable_print_current_loop = True        # Prints info about the loop, cooldowns, messages errors etc
-enable_pilfer = False                   # Enable or disable picking up items
+enable_traversal = True                  # Would you like to move around rooms?
+enable_logging = True                    # Enables the ability for console printing and or logging in a .json file
+enable_room_prints = True                # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
+enable_json_room_log = True              # Prints new rooms to the end of a .json file
+enable_print_current_loop = True         # Prints info about the loop, cooldowns, messages errors etc
+enable_pilfer = False                    # Enable or disable picking up items
 need_1000_gold = False                   # If you need 1000 gold do this
 
 # These settings will require "randomly_traverse" to be True & will set it to True if it is not already
-sell_items = True                       # Would you like to sell items??.
+sell_items = False                       # Would you like to sell items??.
+change_name = True                       # If you need to change your name.
 
 # --------------------------------------------------------------------
 loop_count = 0
@@ -35,7 +36,7 @@ while len(copy) < 500:
     time.sleep(player.currentRoom['cooldown'])
     player.status()
     print("************")
-    #code here
+    # Code to test here
     print("************")
 
     # Set the status to a variable
@@ -190,8 +191,45 @@ while len(copy) < 500:
       time.sleep(theCurrentCooldown)
       time_to_sell()
 
-  paths_to_store = None
-  store_id = 0
+  ''' Change Name '''
+  if change_name is True:
+    ways_to_name_changer = ["467", "100", "", ""]
+
+    # Enable traversal in-memory to find name-changing rooms
+    if enable_traversal is False:
+      print("enable_traversal is False, were going to set it to True in-memory to be able to look for ways to the name changer.")
+      enable_traversal = True
+
+    # Checking to see if the player has enough gold.
+    if player.currentStatus['gold'] < 1000:
+      print("You dont have enough gold to change your name, please traverse and pickup items for a while and then try to find the store.")
+      print("Sleeping for 10 hours.")
+      time.sleep(36000)
+      
+    # function to change name
+    def attempt_name_change():
+      if player.currentStatus['gold'] >= 1000:
+        print(f"You have {player.currentStatus['gold']} gold. lets change your name.")
+        print("Please configure player.py's change_name function. Press enter to continue or ctrl+c to terminate.")
+        input()
+        time.sleep(player.currentRoom['cooldown'])
+        player.name_change()
+        time.sleep(35)
+        player.status()
+        print("Sleeping for 10 hours")
+        time.sleep(360000)
+    
+    if theCurrentRoom is 100:
+      path_to_changer = ["e","s","e","e","e","s","s","s","s","s"]
+      for x in path_to_changer:
+        time.sleep(theCurrentCooldown)
+        player.travel(x)
+      pass
+
+    if theCurrentRoom is 467:
+      attempt_name_change()
+
+
   ''' Traversal Logic '''
   # Traversal Code
   if enable_traversal is True:
