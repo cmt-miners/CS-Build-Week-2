@@ -25,7 +25,7 @@ enable_print_current_loop = True         # Prints info about the loop, cooldowns
 
 # These settings will require "randomly_traverse" to be True & will set it to True if it is not already
 enable_pilfer = False                    # Enable or disable picking up items
-create_room_map = True                   # Log every new room and its exits to a file
+create_room_map = False                   # Log every new room and its exits to a file
 need_1000_gold = False                   # If you need 1000 gold do this
 sell_items = False                       # Would you like to sell items??.
 change_name = True                       # If you need to change your name.
@@ -84,17 +84,22 @@ while len(copy) < 500:
     # Write room map
     if create_room_map is True:
       # Open & create the JSON file if it doesnt exist
-      with open(f"{player.name}s_map.json") as file:
-        the_whole_file = json.load(file)
+      with open(f"{player.name}s_map.json", "r+") as the_whole_file:
+        # the_whole_file = json.load(file)
 
         # Change how the room id string is represented
         fixed_room_id = str(f'{player.currentRoom["room_id"]}')
         print(fixed_room_id)
         #print(the_whole_file[fixed_room_id]['room_id'])
 
-        # If the current room is in the file already move on, else: we have to structure the data and add it to the file
+        # If the current room is in the file we can pass for now
         if fixed_room_id in the_whole_file and the_whole_file[fixed_room_id]['room_id'] is int(fixed_room_id):
-          print("yeet")
+          pass
+        else:
+          # Add a completely new room to the file
+          data_to_dump = str("fff")
+          json.dump(data_to_dump, the_whole_file)
+
 
     time.sleep(843)
 
