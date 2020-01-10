@@ -294,6 +294,7 @@ while len(copy) < 500:
         reverse.append('e')
     else:
       reversal = reverse.pop()
+      print(f"** Attempting reversal from {player.currentRoom['room_id'] to [reversal]}")
       # time.sleep(currentCooldown)
       player.travel(reversal)
       traversalPath.append(reversal)
