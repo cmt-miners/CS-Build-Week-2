@@ -19,6 +19,7 @@ enable_traversal = True                  # Would you like to move around rooms?
 enable_logging = True                    # Enables the ability for console printing and or logging in a .json file
 enable_room_prints = False                # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True              # Prints new rooms to the end of a .json file
+eval_prints = True
 enable_print_current_loop = True         # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = False                    # Enable or disable picking up items
 need_1000_gold = False                   # If you need 1000 gold do this
@@ -100,16 +101,16 @@ while len(copy) < 500:
   theCurrentExits = {}                                         # Sets an in-memory Dictionary of the exits for the current room
   #inventoryItems = player.currentStatus['inventory']           # List of items in your inventory
 
+  ''' Sleep & then update Status '''
+  time.sleep(theCurrentCooldown)
+  player.status()
+
   ''' Pilfering '''
   if enable_pilfer is True:
     if need_1000_gold == True:
       if len(player.currentRoom['items']) > 0:
         player.pilfer()
         time.sleep(8)
-
-  ''' Sleep & then update Status '''
-  time.sleep(theCurrentCooldown)
-  player.status()
 
   ''' Add's current room to copy & rooms dict '''
   # If theCurrentRoom isn't in the "copy" dict, we need to add it & the exits
@@ -228,13 +229,21 @@ while len(copy) < 500:
     if theCurrentRoom is 467:
       attempt_name_change()
 
-
   ''' Traversal Logic '''
   # Traversal Code
   if enable_traversal is True:
-    if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
+
+    # Go north
+    if 'n' in copy[theCurrentRoom]:
+      #Eval Print
+      if eval_prints is True:
+        print(f"    evaluating going north from {theCurrentRoom}")
+
       if theCurrentExits['n']=='unknown':
-      #   time.sleep(curCooldown)
+        # Eval Print
+        if eval_prints is True:
+          print(f"    moving north from {theCurrentRoom}.")
+
         player.travel("n", theCurrentRoom)
         traversalPath.append("n")
         newRoom=player.currentRoom['room_id']
@@ -247,9 +256,17 @@ while len(copy) < 500:
           newExits['s']=theCurrentRoom
         reverse.append('s')
 
+    # Go South
     elif 's' in copy[theCurrentRoom]:
+      # Eval Print
+      if eval_prints is True:
+        print(f"    evaluating going south from {theCurrentRoom}")
+
       if theCurrentExits['s']=='unknown':
-      #   time.sleep(curCooldown)
+        # Eval Prints
+        if eval_prints is True:
+          print(f"    moving south from {theCurrentRoom}")
+
         player.travel("s", theCurrentRoom)
         traversalPath.append("s")
         newRoom=player.currentRoom['room_id']
@@ -262,9 +279,17 @@ while len(copy) < 500:
           newExits['n']=theCurrentRoom
         reverse.append('n')
 
-    elif 'e' in copy[theCurrentRoom] and theCurrentExits['e'] == 'unknown':
+    # Go East
+    elif 'e' in copy[theCurrentRoom]:
+      # Eval Print
+      if eval_prints is True:
+        print(f"    evaluating going east from {theCurrentRoom}")
+
       if theCurrentExits['e']=='unknown':
-      #   time.sleep(curCooldown)
+        # Eval Prints
+        if eval_prints is True:
+          print(f"    moving east from {theCurrentRoom}")
+          
         player.travel("e", theCurrentRoom)
         traversalPath.append("e")
         newRoom=player.currentRoom['room_id']
@@ -277,9 +302,17 @@ while len(copy) < 500:
           newExits['w']=theCurrentRoom
         reverse.append('w')
 
-    elif 'w' in copy[theCurrentRoom] and theCurrentExits['w'] == 'unknown':
+    # Go West
+    elif 'w' in copy[theCurrentRoom]:
+      # Eval Print
+      if eval_prints is True:
+        print(f"    evaluating going west from {theCurrentRoom}")
+
       if theCurrentExits['w']=='unknown':
-      #   time.sleep(curCooldown)
+        # Eval Prints
+        if eval_prints is True:
+          print(f"    going west from {theCurrentRoom}")
+          
         player.travel("w", theCurrentRoom)
         traversalPath.append("w")
         newRoom=player.currentRoom['room_id']
@@ -291,9 +324,11 @@ while len(copy) < 500:
             copy[newRoom]=newExits
           newExits['e']=theCurrentRoom
         reverse.append('e')
+    
+    # Reverse
     else:
+      print(f"**Attempting reversal from {player.currentRoom['room_id']}")
       reversal = reverse.pop()
-      print(f"**Attempting reversal from {player.currentRoom['room_id']} to {reversal}")
       # time.sleep(currentCooldown)
       player.travel(reversal)
       traversalPath.append(reversal)
