@@ -1,4 +1,5 @@
 from player import Player
+import sys
 import time
 import os.path
 import json
@@ -21,10 +22,11 @@ enable_room_prints = False               # Prints a list of rooms we have been t
 enable_json_room_log = True              # Prints new rooms to the end of a .json file
 eval_prints = True                       # See the logic as it runs
 enable_print_current_loop = True         # Prints info about the loop, cooldowns, messages errors etc
-enable_pilfer = False                    # Enable or disable picking up items
-need_1000_gold = False                   # If you need 1000 gold do this
 
 # These settings will require "randomly_traverse" to be True & will set it to True if it is not already
+enable_pilfer = False                    # Enable or disable picking up items
+create_room_map = True                   # Log every new room and its exits to a file
+need_1000_gold = False                   # If you need 1000 gold do this
 sell_items = False                       # Would you like to sell items??.
 change_name = True                       # If you need to change your name.
 
@@ -78,6 +80,31 @@ while len(copy) < 500:
         fixedJSON = json.dumps(player.currentRoom)
         f.write(f"{fixedJSON},\n")
         f.close()
+
+    # Write room map
+    if create_room_map is True:
+      # Open & create the JSON file if it doesnt exist
+      with open(f"{player.name}s_map.json") as file:
+        the_whole_file = json.load(file)
+
+        # Change how the room id string is represented
+        fixed_room_id = str(f'{player.currentRoom["room_id"]}')
+        print(fixed_room_id)
+        #print(the_whole_file[fixed_room_id]['room_id'])
+
+        # If the current room is in the file already move on, else: we have to structure the data and add it to the file
+        if fixed_room_id in the_whole_file and the_whole_file[fixed_room_id]['room_id'] is int(fixed_room_id):
+          print("yeet")
+
+    time.sleep(843)
+
+      #if the_whole_file[fixed_room_id]:
+      #print("**",the_whole_file[fixed_room_id])
+      #else:
+      # Structure data to be dumped
+      #data_2_dump = str(f',{fixed_room_id}:')
+      #print(data_2_dump)
+      
 
   ''' Sleep & then update Status '''
   time.sleep(player.currentRoom['cooldown'])
@@ -315,6 +342,7 @@ while len(copy) < 500:
             newExits[exit]="unknown"
             copy[newRoom]=newExits
           newExits['s']=theCurrentRoom
+        
         reverse.append('s')
 
     # Go South
