@@ -157,7 +157,7 @@ while len(copy) < 500:
       directions = ["n","n","w","n","w","s","w","w","n","n","n","n","n","n","w","n","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
-        player.travel(x)
+        player.travel(x, theCurrentRoom)
       time_to_sell()
 
     # 125 -> Store
@@ -165,7 +165,7 @@ while len(copy) < 500:
       directions = ["e","s","e","s","s","s","s","s","s","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
-        player.travel(x)
+        player.travel(x, theCurrentRoom)
       time_to_sell()
     
     # 10 -> Store
@@ -173,7 +173,7 @@ while len(copy) < 500:
       directions = ["s","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
-        player.travel(x)
+        player.travel(x, theCurrentRoom)
       time_to_sell()
     
     # room 4 -> store
@@ -181,13 +181,13 @@ while len(copy) < 500:
       directions = ["e","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
-        player.travel(x)
+        player.travel(x, theCurrentRoom)
       time_to_sell()
 
     # 0 -> Store
     if theCurrentRoom is 0:
       time.sleep(theCurrentCooldown)
-      player.travel("w")
+      player.travel("w", theCurrentRoom)
       time.sleep(theCurrentCooldown)
       time_to_sell()
 
@@ -223,7 +223,7 @@ while len(copy) < 500:
       path_to_changer = ["e","s","e","e","e","s","s","s","s","s"]
       for x in path_to_changer:
         time.sleep(theCurrentCooldown)
-        player.travel(x)
+        player.travel(x,theCurrentRoom['room_id'])
       pass
 
     if theCurrentRoom is 467:
@@ -236,7 +236,7 @@ while len(copy) < 500:
     if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
       if theCurrentExits['n']=='unknown':
       #   time.sleep(curCooldown)
-        player.travel("n")
+        player.travel("n", theCurrentRoom)
         traversalPath.append("n")
         newRoom=player.currentRoom['room_id']
         theCurrentExits['n']=newRoom
@@ -251,7 +251,7 @@ while len(copy) < 500:
     elif 's' in copy[theCurrentRoom]:
       if theCurrentExits['s']=='unknown':
       #   time.sleep(curCooldown)
-        player.travel("s")
+        player.travel("s", theCurrentRoom)
         traversalPath.append("s")
         newRoom=player.currentRoom['room_id']
         theCurrentExits['s']=newRoom
@@ -266,7 +266,7 @@ while len(copy) < 500:
     elif 'e' in copy[theCurrentRoom] and theCurrentExits['e'] == 'unknown':
       if theCurrentExits['e']=='unknown':
       #   time.sleep(curCooldown)
-        player.travel("e")
+        player.travel("e", theCurrentRoom)
         traversalPath.append("e")
         newRoom=player.currentRoom['room_id']
         theCurrentExits['e']=newRoom
@@ -281,7 +281,7 @@ while len(copy) < 500:
     elif 'w' in copy[theCurrentRoom] and theCurrentExits['w'] == 'unknown':
       if theCurrentExits['w']=='unknown':
       #   time.sleep(curCooldown)
-        player.travel("w")
+        player.travel("w", theCurrentRoom)
         traversalPath.append("w")
         newRoom=player.currentRoom['room_id']
         theCurrentExits['w']=newRoom
@@ -294,7 +294,7 @@ while len(copy) < 500:
         reverse.append('e')
     else:
       reversal = reverse.pop()
-      print(f"** Attempting reversal from {player.currentRoom['room_id'] to [reversal]}")
+      print(f"**Attempting reversal from {player.currentRoom['room_id']} to {reversal}")
       # time.sleep(currentCooldown)
       player.travel(reversal)
       traversalPath.append(reversal)

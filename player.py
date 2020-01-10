@@ -16,7 +16,7 @@ class Player:
         self.currentRoom = startingRoom
         currentStatus = {}
 
-    def travel(self, direction):
+    def travel(self, direction, cameFrom):
         if direction == "n":
             data={"direction": "n"}
         if direction == "s":
@@ -32,7 +32,7 @@ class Player:
 
         nextRoom=json.loads(res.text)
         self.currentRoom=nextRoom
-        print(f"Moved {direction} from {self.currentRoom['room_id']} to {nextRoom['room_id']}")
+        print(f"Moved {direction} from {cameFrom} to {nextRoom['room_id']}")
 
     def init(self):
         res=requests.get(
