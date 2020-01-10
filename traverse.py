@@ -14,7 +14,7 @@ reverse=[]
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
 # ---------------------
-test = True                             # Sleep & then test some code & then sleep for 5000 seconds
+test = False                             # Sleep & then test some code & then sleep for 5000 seconds
 enable_traversal = True                 # Would you like to move around rooms?
 enable_logging = True                   # Enables the ability for console printing and or logging in a .json file
 enable_room_prints = True               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
@@ -35,7 +35,7 @@ while len(copy) < 500:
     time.sleep(player.currentRoom['cooldown'])
     player.status()
     print("************")
-    print(player.currentStatus['inventory'])
+    #code here
     print("************")
 
     # Set the status to a variable
@@ -93,11 +93,12 @@ while len(copy) < 500:
     print("Should print things only if they change from the previous loop.") # Todo, but not mvp
 
   ''' Variables '''
-  roomObj = player.currentRoom                    # Sets the current room to an Obj
-  theCurrentRoom = roomObj['room_id']             # Sets the current room id to a variable
-  theCurrentCooldown = roomObj['cooldown']        # Sets the cooldown period to a variable
-  theCurrentExits = {}                            # Sets an in-memory Dictionary of the exits for the current room
-  
+  roomObj = player.currentRoom                                 # Sets the current room to an Obj
+  theCurrentRoom = roomObj['room_id']                          # Sets the current room id to a variable
+  theCurrentCooldown = roomObj['cooldown']                     # Sets the cooldown period to a variable
+  theCurrentExits = {}                                         # Sets an in-memory Dictionary of the exits for the current room
+  #inventoryItems = player.currentStatus['inventory']           # List of items in your inventory
+
   ''' Pilfering '''
   if enable_pilfer is True:
     if need_1000_gold == True:
@@ -137,18 +138,19 @@ while len(copy) < 500:
     
     # Function to sell items
     def time_to_sell():
-      print("************** Attempting to sell items")
-      time.sleep(5)
-      player.status()
-      time.sleep(theCurrentCooldown)
-      player.sell()
-      time.sleep(theCurrentCooldown)
-      player.status()
-      print("************** Attempt Over")
+      items_looped_over = 0
+      item_to_loop_over = len(player.currentStatus['inventory'])
+      for item in player.currentStatus['inventory']:
+        time.sleep(theCurrentCooldown)
+        print(f"attempting to sell {item}, item's left:{items_looped_over - item_to_loop_over}")
+        player.sell()
+        time.sleep(5)
+        items_looped_over = + 1
+      print(f"All items sold, {player.currentStatus['inventory']}")
       print("Initializing 10 hour sleep")
       time.sleep(36000)
-
     
+
     # 262 - > Store
     if theCurrentRoom is 262:
       directions = ["n","n","w","n","w","s","w","w","n","n","n","n","n","n","w","n","w"]
