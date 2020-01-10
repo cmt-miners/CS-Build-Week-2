@@ -82,13 +82,12 @@ while len(copy) < 500:
   ''' Sleep & then update Status '''
   time.sleep(player.currentRoom['cooldown'])
   player.status()
+  time.sleep(5)
 
   ''' Current loop Prints '''
   if enable_print_current_loop is True:
     loop_count = loop_count +1
     print("\n")
-    if eval_prints is True:
-      print(f"------- player.currentRoom:::: {player.currentRoom} \n")
     print(f"------- Loop Number: {loop_count} ------- sleep: {player.currentRoom['cooldown']}")
     print(f"{player.name}, {player.currentRoom['description']}")
     print(f"room: {player.currentRoom['room_id']}, {player.currentRoom['title']}")
@@ -232,7 +231,7 @@ while len(copy) < 500:
       attempt_name_change()
 
   ''' Traversal Logic '''
-  if enable_traversal is False:
+  if enable_traversal is True:
 
     # Variable for the current room's exits
     directions_to_check = player.currentRoom['exits']

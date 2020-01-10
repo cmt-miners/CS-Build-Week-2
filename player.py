@@ -33,7 +33,7 @@ class Player:
         nextRoom=json.loads(res.text)
         self.currentRoom=nextRoom
         print(f"*Moved {direction} from {cameFrom}")
-        print(f"** nextRoom says: {nextRoom}")
+        # print(f"** nextRoom says: {nextRoom}")
 
     def init(self):
         res=requests.get(
