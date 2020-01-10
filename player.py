@@ -32,7 +32,7 @@ class Player:
 
         nextRoom=json.loads(res.text)
         self.currentRoom=nextRoom
-        print(f"* Moving {direction} from {cameFrom} to {nextRoom['room_id']}")
+        print(f"Moved {direction} from {cameFrom} to {nextRoom['room_id']}")
 
     def init(self):
         res=requests.get(
@@ -60,8 +60,11 @@ class Player:
         res=requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/', headers=headers
             )
-        print("*Updating Status")
+        print("*Updating Status\n")
         self.currentStatus = json.loads(res.text)
+        # print(type(currentStatus))
+        # print(type(currentStatus['inventory']))
+        # print(currentStatus['inventory'])
 
     def sell(self):
         data1 = {"name": "treasure"}
