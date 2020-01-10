@@ -10,6 +10,8 @@ traversalPath = []
 copy={}
 rooms={}
 reverse=[]
+last_dead_end = {}
+last_dead_end_exit_tired = []
 
 # ------------------------------ SETTINGS ---------------------------#
 # True = on, False = off
@@ -114,7 +116,7 @@ while len(copy) < 500:
 
   ''' Add's current room to copy & rooms dict '''
   # If theCurrentRoom isn't in the "copy" dict, we need to add it & the exits
-  print(f"exits: {theCurrentExits}, true_exits: {player.theCurrentRoom['exits']}")
+  print(f"exits: {theCurrentExits}, true_exits: {player.currentRoom['exits']}")
   if theCurrentRoom not in copy:
     copy[theCurrentRoom] = theCurrentRoom
 
@@ -271,12 +273,23 @@ while len(copy) < 500:
 
       # Since all of the directions are known, were going to have to go back until we find an unknown direction
       else:
-        if eval_prints is True:
-          print(f"**Attempting reversal from {player.currentRoom['room_id']}")
-          print(f"** reverse: {reverse}")
-        reversal = reverse.pop()
-        player.travel(reversal)
-        traversalPath.append(reversal)
+
+        # If the reverse list is >= 1 we can reverse.
+        if len(reverse) >= 1:
+          if eval_prints is True:
+            print(f"**Attempting reversal from {player.currentRoom['room_id']}")
+            print(f"** reverse: {reverse}")
+          reversal = reverse.pop()
+          player.travel(reversal)
+          traversalPath.append(reversal)
+        
+        # If the list is smaller than 1, we have to choose a direction to go.
+        else:
+          print("***Warning, youre stuck. Please manually traverse out.")
+          print("Sleeping for 10 hours")
+          time.sleep(36000)
+
+
 
   # Traversal Code
   if enable_traversal is False:
