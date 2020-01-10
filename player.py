@@ -17,7 +17,6 @@ class Player:
         currentStatus = {}
 
     def travel(self, direction):
-        print("Direction", direction)
         if direction == "n":
             data={"direction": "n"}
         if direction == "s":
@@ -33,7 +32,7 @@ class Player:
 
         nextRoom=json.loads(res.text)
         self.currentRoom=nextRoom
-        print(nextRoom, "Here is our new room")
+        print(f"Moved {direction} from {self.currentRoom['room_id']} to {nextRoom['room_id']}")
 
     def init(self):
         res=requests.get(
@@ -61,7 +60,7 @@ class Player:
         res=requests.post(
             'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/', headers=headers
             )
-        print("Checking Status\n", json.loads(res.text))
+        print("*Updating Status\n")
         self.currentStatus = json.loads(res.text)
         # print(type(currentStatus))
         # print(type(currentStatus['inventory']))

@@ -17,7 +17,7 @@ reverse=[]
 test = False                             # Sleep & then test some code & then sleep for 5000 seconds
 enable_traversal = True                  # Would you like to move around rooms?
 enable_logging = True                    # Enables the ability for console printing and or logging in a .json file
-enable_room_prints = True                # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
+enable_room_prints = False                # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True              # Prints new rooms to the end of a .json file
 enable_print_current_loop = True         # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = False                    # Enable or disable picking up items
@@ -82,7 +82,7 @@ while len(copy) < 500:
   if enable_print_current_loop is True:
     loop_count = loop_count +1
     print("\n")
-    print(f"------- Loop Number: {loop_count} -------")
+    print(f"------- Loop Number: {loop_count} ------- sleep: {player.currentRoom['cooldown']}")
     print(f"{player.name}, {player.currentRoom['description']}")
     print(f"room: {player.currentRoom['room_id']}, {player.currentRoom['title']}")
     print(f"exits: {player.currentRoom['exits']}")
@@ -107,7 +107,7 @@ while len(copy) < 500:
         player.pilfer()
         time.sleep(8)
 
-  ''' Sleep & then get Status '''
+  ''' Sleep & then update Status '''
   time.sleep(theCurrentCooldown)
   player.status()
 
@@ -234,7 +234,6 @@ while len(copy) < 500:
   # Traversal Code
   if enable_traversal is True:
     if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
-      print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['n']=='unknown':
       #   time.sleep(curCooldown)
         player.travel("n")
@@ -250,7 +249,6 @@ while len(copy) < 500:
         reverse.append('s')
 
     elif 's' in copy[theCurrentRoom]:
-      print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['s']=='unknown':
       #   time.sleep(curCooldown)
         player.travel("s")
@@ -266,7 +264,6 @@ while len(copy) < 500:
         reverse.append('n')
 
     elif 'e' in copy[theCurrentRoom] and theCurrentExits['e'] == 'unknown':
-      print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['e']=='unknown':
       #   time.sleep(curCooldown)
         player.travel("e")
@@ -282,7 +279,6 @@ while len(copy) < 500:
         reverse.append('w')
 
     elif 'w' in copy[theCurrentRoom] and theCurrentExits['w'] == 'unknown':
-      print(copy[theCurrentRoom], "Currently")
       if theCurrentExits['w']=='unknown':
       #   time.sleep(curCooldown)
         player.travel("w")
