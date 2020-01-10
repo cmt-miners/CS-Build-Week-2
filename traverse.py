@@ -17,9 +17,9 @@ reverse=[]
 test = False                             # Sleep & then test some code & then sleep for 5000 seconds
 enable_traversal = True                  # Would you like to move around rooms?
 enable_logging = True                    # Enables the ability for console printing and or logging in a .json file
-enable_room_prints = False                # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
+enable_room_prints = False               # Prints a list of rooms we have been to on each loop, each time it loops there should be +1 more room
 enable_json_room_log = True              # Prints new rooms to the end of a .json file
-eval_prints = True
+eval_prints = True                       # See the logic as it runs
 enable_print_current_loop = True         # Prints info about the loop, cooldowns, messages errors etc
 enable_pilfer = False                    # Enable or disable picking up items
 need_1000_gold = False                   # If you need 1000 gold do this
@@ -43,7 +43,7 @@ while len(copy) < 500:
     # Sleep for a bit
     time.sleep(5000)
 
-  ''' JSON Room Print's & Write to File'''
+  ''' JSON Room Print's & Write to File's'''
   if enable_logging is True:
 
     # Console Prints copy & then rooms
@@ -63,7 +63,7 @@ while len(copy) < 500:
       else:
         print(    rooms)
     
-    # File Writes
+    # Write JSON Log
     if enable_json_room_log is True:
 
       # If the file we are looking for exists we can write to it, else we have to create it and then write to it.
@@ -114,12 +114,13 @@ while len(copy) < 500:
 
   ''' Add's current room to copy & rooms dict '''
   # If theCurrentRoom isn't in the "copy" dict, we need to add it & the exits
+  print(f"exits: {theCurrentExits}, true_exits: {player.theCurrentRoom['exits']}")
   if theCurrentRoom not in copy:
     copy[theCurrentRoom] = theCurrentRoom
 
-    # Generate a list of all of the possible exits for the current room
-    for exit in player.currentRoom['exits']:
-      theCurrentExits[exit] = "unknown"
+    # Generate a list of all of the possible exits for the current room and set its value to 'unknown'
+    for xit in player.currentRoom['exits']:
+      theCurrentExits[xit] = "unknown"
 
     copy[theCurrentRoom] = theCurrentExits
   theCurrentExits = copy[theCurrentRoom]
@@ -153,7 +154,7 @@ while len(copy) < 500:
       time.sleep(36000)
 
     # 262 - > Store
-    if theCurrentRoom is 262:
+    if theCurrentRoom == 262:
       directions = ["n","n","w","n","w","s","w","w","n","n","n","n","n","n","w","n","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
@@ -161,7 +162,7 @@ while len(copy) < 500:
       time_to_sell()
 
     # 125 -> Store
-    if theCurrentRoom is 125:
+    if theCurrentRoom == 125:
       directions = ["e","s","e","s","s","s","s","s","s","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
@@ -169,7 +170,7 @@ while len(copy) < 500:
       time_to_sell()
     
     # 10 -> Store
-    if theCurrentRoom is 10:
+    if theCurrentRoom == 10:
       directions = ["s","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
@@ -177,7 +178,7 @@ while len(copy) < 500:
       time_to_sell()
     
     # room 4 -> store
-    if theCurrentRoom is 4:
+    if theCurrentRoom == 4:
       directions = ["e","w"]
       for x in directions:
         player.sleep(theCurrentCooldown)
@@ -185,7 +186,7 @@ while len(copy) < 500:
       time_to_sell()
 
     # 0 -> Store
-    if theCurrentRoom is 0:
+    if theCurrentRoom == 0:
       time.sleep(theCurrentCooldown)
       player.travel("w", theCurrentRoom)
       time.sleep(theCurrentCooldown)
@@ -219,36 +220,86 @@ while len(copy) < 500:
         print("Sleeping for 10 hours")
         time.sleep(360000)
     
-    if theCurrentRoom is 100:
+    if theCurrentRoom == 100:
       path_to_changer = ["e","s","e","e","e","s","s","s","s","s"]
       for x in path_to_changer:
         time.sleep(theCurrentCooldown)
         player.travel(x,theCurrentRoom['room_id'])
       pass
 
-    if theCurrentRoom is 467:
+    if theCurrentRoom == 467:
       attempt_name_change()
 
   ''' Traversal Logic '''
-  # Traversal Code
   if enable_traversal is True:
 
+    # Variable for the current room's exits
+    directions_to_check = player.currentRoom['exits']
+
+    # Only check the avaliable exits
+    for possible_direction in directions_to_check:
+      # Evaluate Logic as it runs
+      if eval_prints is True:
+        print(f"    Evaluating the {possible_direction} room")
+        print(f"    Looking for room:{theCurrentRoom} in copy:{copy[theCurrentRoom]}")
+
+      if possible_direction not in copy[theCurrentRoom]:
+        # Evaluate logic as it runs
+        if eval_prints is True:
+          print(f"    current direction to check: {possible_direction}.")
+        
+        # If we dont know what room_id is at the current direction we are looking at, we will move there.
+        if theCurrentExits[possible_direction] == 'unknown':
+          # Evaluate Logic
+          if eval_prints is True:
+            print(f"        the room {possible_direction} of us should be unknown:{theCurrentExits[possible_direction]}, lets move there.")
+          
+          # Move to the unknown room
+          player.travel(possible_direction, theCurrentRoom)
+          # Log the move so we can see the path we took.
+          traversalPath.append(possible_direction)
+
+          # Log the oppisite direction in the reverse list
+          if possible_direction == "n":
+            reverse.append("s")
+          elif possible_direction == "e":
+            reverse.append("w")
+          elif possible_direction == "s":
+            reverse.append("n")
+          else:
+            reverse.append("e")
+
+      # Since all of the directions are known, were going to have to go back until we find an unknown direction
+      else:
+        if eval_prints is True:
+          print(f"**Attempting reversal from {player.currentRoom['room_id']}")
+          print(f"** reverse: {reverse}")
+        reversal = reverse.pop()
+        player.travel(reversal)
+        traversalPath.append(reversal)
+
+  # Traversal Code
+  if enable_traversal is False:
+    print(f"    current exits: {theCurrentExits}")
     # Go north
     if 'n' in copy[theCurrentRoom]:
       #Eval Print
       if eval_prints is True:
         print(f"    evaluating going north from {theCurrentRoom}")
+        print(f"        current exits: {theCurrentExits['n']}, if the exit is 'unknown' it will move to that room.")
 
-      if theCurrentExits['n']=='unknown':
+      if theCurrentExits['n'] == 'unknown':
         # Eval Print
         if eval_prints is True:
           print(f"    moving north from {theCurrentRoom}.")
 
         player.travel("n", theCurrentRoom)
         traversalPath.append("n")
+
         newRoom=player.currentRoom['room_id']
         theCurrentExits['n']=newRoom
         newExits={}
+
         if newRoom not in copy:
           for exit in player.currentRoom['exits']:
             newExits[exit]="unknown"
@@ -261,8 +312,9 @@ while len(copy) < 500:
       # Eval Print
       if eval_prints is True:
         print(f"    evaluating going south from {theCurrentRoom}")
+        print(f"        current exits: {theCurrentExits['s']}, if the exit is 'unknown' it will move to that room.")
 
-      if theCurrentExits['s']=='unknown':
+      if theCurrentExits['s'] == 'unknown':
         # Eval Prints
         if eval_prints is True:
           print(f"    moving south from {theCurrentRoom}")
@@ -284,8 +336,9 @@ while len(copy) < 500:
       # Eval Print
       if eval_prints is True:
         print(f"    evaluating going east from {theCurrentRoom}")
+        print(f"        current exits: {theCurrentExits['e']}, if the exit is 'unknown' it will move to that room.")
 
-      if theCurrentExits['e']=='unknown':
+      if theCurrentExits['e'] == 'unknown':
         # Eval Prints
         if eval_prints is True:
           print(f"    moving east from {theCurrentRoom}")
@@ -307,8 +360,9 @@ while len(copy) < 500:
       # Eval Print
       if eval_prints is True:
         print(f"    evaluating going west from {theCurrentRoom}")
+        print(f"        current exits: {theCurrentExits['w']}, if the exit is 'unknown' it will move to that room.")
 
-      if theCurrentExits['w']=='unknown':
+      if theCurrentExits['w'] == 'unknown':
         # Eval Prints
         if eval_prints is True:
           print(f"    going west from {theCurrentRoom}")
