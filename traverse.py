@@ -26,10 +26,13 @@ need_1000_gold = False                   # If you need 1000 gold do this
 # These settings will require "randomly_traverse" to be True & will set it to True if it is not already
 sell_items = False                       # Would you like to sell items??.
 change_name = True                       # If you need to change your name.
+manual_traversal = False                 # Manually traverse
 
 # --------------------------------------------------------------------
 loop_count = 0
 while len(copy) < 500:
+  print(f"\n------------\ntraversalPath: {traversalPath}")
+  print(f"reverse: {reverse}")
 
   ''' Testing '''
   if test is True:
@@ -107,9 +110,11 @@ while len(copy) < 500:
         player.pilfer()
         time.sleep(8)
 
-  ''' Sleep & then update Status '''
+  ''' Status Update '''
   time.sleep(theCurrentCooldown)
   player.status()
+  print(f"sleeping for {player.currentStatus['cooldown']}")
+  time.sleep(player.currentStatus['cooldown'])
 
   ''' Add's current room to copy & rooms dict '''
   # If theCurrentRoom isn't in the "copy" dict, we need to add it & the exits
@@ -229,9 +234,11 @@ while len(copy) < 500:
       attempt_name_change()
 
 
+
   ''' Traversal Logic '''
-  # Traversal Code
+  # Traversal Code (temporarily false)
   if enable_traversal is True:
+
     if 'n' in copy[theCurrentRoom] and theCurrentExits['n'] == 'unknown':
       if theCurrentExits['n']=='unknown':
       #   time.sleep(curCooldown)
