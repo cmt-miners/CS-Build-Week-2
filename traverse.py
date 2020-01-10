@@ -150,7 +150,6 @@ while len(copy) < 500:
       print(f"All items sold, {player.currentStatus['inventory']}")
       print("Initializing 10 hour sleep")
       time.sleep(36000)
-    
 
     # 262 - > Store
     if theCurrentRoom is 262:
