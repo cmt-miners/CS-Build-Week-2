@@ -25,7 +25,6 @@ enable_print_current_loop = True         # Prints info about the loop, cooldowns
 
 # These settings will require "randomly_traverse" to be True & will set it to True if it is not already
 enable_pilfer = False                    # Enable or disable picking up items
-create_room_map = False                  # Log every new room and its exits to a file (Broken)
 need_1000_gold = False                   # If you need 1000 gold do this
 sell_items = False                       # Would you like to sell items??.
 change_name = True                       # If you need to change your name.
@@ -80,40 +79,11 @@ while len(copy) < 500:
         fixedJSON = json.dumps(player.currentRoom)
         f.write(f"{fixedJSON},\n")
         f.close()
-
-    # Write room map ( Broken )
-    if create_room_map is True:
-      # Open & create the JSON file if it doesnt exist
-      with open(f"{player.name}s_map.json", "r+") as the_whole_file:
-        # the_whole_file = json.load(file)
-
-        # Change how the room id string is represented
-        fixed_room_id = str(f'{player.currentRoom["room_id"]}')
-        print(fixed_room_id)
-        #print(the_whole_file[fixed_room_id]['room_id'])
-
-        # If the current room is in the file we can pass for now
-        if fixed_room_id in the_whole_file and the_whole_file[fixed_room_id]['room_id'] is int(fixed_room_id):
-          pass
-        else:
-          # Add a completely new room to the file
-          data_to_dump = str("fff")
-          json.dump(data_to_dump, the_whole_file)
-
-      time.sleep(843)
-
-      #if the_whole_file[fixed_room_id]:
-      #print("**",the_whole_file[fixed_room_id])
-      #else:
-      # Structure data to be dumped
-      #data_2_dump = str(f',{fixed_room_id}:')
-      #print(data_2_dump)
-      
-
+    
   ''' Sleep & then update Status '''
   time.sleep(player.currentRoom['cooldown'])
   player.status()
-  time.sleep(5)
+  time.sleep(2)
 
   ''' Current loop Prints '''
   if enable_print_current_loop is True:
@@ -318,113 +288,3 @@ while len(copy) < 500:
             print("***Warning, youre stuck. Please manually traverse out.")
             print("Sleeping for 10 hours")
             time.sleep(36000)
-
-  # Original Traversal Code
-  if enable_traversal is False:
-    print(f"    current exits: {theCurrentExits}")
-    # Go north
-    if 'n' in copy[theCurrentRoom]:
-      #Eval Print
-      if eval_prints is True:
-        print(f"    evaluating going north from {theCurrentRoom}")
-        print(f"        current exits: {theCurrentExits['n']}, if the exit is 'unknown' it will move to that room.")
-
-      if theCurrentExits['n'] == 'unknown':
-        # Eval Print
-        if eval_prints is True:
-          print(f"    moving north from {theCurrentRoom}.")
-
-        player.travel("n", theCurrentRoom)
-        traversalPath.append("n")
-
-        newRoom=player.currentRoom['room_id']
-        theCurrentExits['n']=newRoom
-        newExits={}
-
-        if newRoom not in copy:
-          for exit in player.currentRoom['exits']:
-            newExits[exit]="unknown"
-            copy[newRoom]=newExits
-          newExits['s']=theCurrentRoom
-        
-        reverse.append('s')
-
-    # Go South
-    elif 's' in copy[theCurrentRoom]:
-      # Eval Print
-      if eval_prints is True:
-        print(f"    evaluating going south from {theCurrentRoom}")
-        print(f"        current exits: {theCurrentExits['s']}, if the exit is 'unknown' it will move to that room.")
-
-      if theCurrentExits['s'] == 'unknown':
-        # Eval Prints
-        if eval_prints is True:
-          print(f"    moving south from {theCurrentRoom}")
-
-        player.travel("s", theCurrentRoom)
-        traversalPath.append("s")
-        newRoom=player.currentRoom['room_id']
-        theCurrentExits['s']=newRoom
-        newExits={}
-        if newRoom not in copy:
-          for exit in player.currentRoom['exits']:
-            newExits[exit]="unknown"
-            copy[newRoom]=newExits
-          newExits['n']=theCurrentRoom
-        reverse.append('n')
-
-    # Go East
-    elif 'e' in copy[theCurrentRoom]:
-      # Eval Print
-      if eval_prints is True:
-        print(f"    evaluating going east from {theCurrentRoom}")
-        print(f"        current exits: {theCurrentExits['e']}, if the exit is 'unknown' it will move to that room.")
-
-      if theCurrentExits['e'] == 'unknown':
-        # Eval Prints
-        if eval_prints is True:
-          print(f"    moving east from {theCurrentRoom}")
-          
-        player.travel("e", theCurrentRoom)
-        traversalPath.append("e")
-        newRoom=player.currentRoom['room_id']
-        theCurrentExits['e']=newRoom
-        newExits={}
-        if newRoom not in copy:
-          for exit in player.currentRoom['exits']:
-            newExits[exit]="unknown"
-            copy[newRoom]=newExits
-          newExits['w']=theCurrentRoom
-        reverse.append('w')
-
-    # Go West
-    elif 'w' in copy[theCurrentRoom]:
-      # Eval Print
-      if eval_prints is True:
-        print(f"    evaluating going west from {theCurrentRoom}")
-        print(f"        current exits: {theCurrentExits['w']}, if the exit is 'unknown' it will move to that room.")
-
-      if theCurrentExits['w'] == 'unknown':
-        # Eval Prints
-        if eval_prints is True:
-          print(f"    going west from {theCurrentRoom}")
-          
-        player.travel("w", theCurrentRoom)
-        traversalPath.append("w")
-        newRoom=player.currentRoom['room_id']
-        theCurrentExits['w']=newRoom
-        newExits={}
-        if newRoom not in copy:
-          for exit in player.currentRoom['exits']:
-            newExits[exit]="unknown"
-            copy[newRoom]=newExits
-          newExits['e']=theCurrentRoom
-        reverse.append('e')
-    
-    # Reverse
-    else:
-      print(f"**Attempting reversal from {player.currentRoom['room_id']}")
-      reversal = reverse.pop()
-      # time.sleep(currentCooldown)
-      player.travel(reversal)
-      traversalPath.append(reversal)
